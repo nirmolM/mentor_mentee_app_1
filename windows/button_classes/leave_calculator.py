@@ -102,7 +102,6 @@ class LeaveCalculatorDashboard(QDialog):
             self.generate_leave_record_button.setDisabled(True)
 
     def generate_absentia_record(self):
-        # todo -> $BUG$ -> Causes Crash see the error that comes and rectify it
         self.description = self.description_input.text()
         if self.reason_input.currentText() == "Other":
             self.reason = self.reason_input_text.text()
