@@ -72,6 +72,9 @@ class TableWindow(QDialog):  # todo -> make button for parent letter for default
             QPushButton("Generate Academic Achievement and/or LoR/LoA Record")
         self.generate_academic_achievement_lor_loa_button.clicked.connect(self.academic_achievement_record)
         self.generate_academic_achievement_lor_loa_button.setDisabled(True)
+        self.generate_defaulter_document_button = QPushButton("Generate Defaulter Document")
+        self.generate_defaulter_document_button.clicked.connect(self.defaulter_documentation)
+        self.generate_defaulter_document_button.setDisabled(True)
         if not created_now:
             self.update_table_button.setDisabled(True)
             layout.addWidget(self.load_data_button, 1, 3)
@@ -157,12 +160,14 @@ class TableWindow(QDialog):  # todo -> make button for parent letter for default
             table, (rows_local, start, end) = args
             row_list = de.give_rows_for_tables(rows_local, start, end)
             dash_b_opt.write_to_table(table=table, row_list=row_list)
+
         list(map(write_to_table_wrapper, zip(self.tab_tables, ranges)))
 
     def enable_button(self, row):
         self.generate_leave_button.setDisabled(False)
         self.generate_student_details_button.setDisabled(False)
         self.generate_academic_achievement_lor_loa_button.setDisabled(False)
+        self.generate_defaulter_document_button.setDisabled(False)
         self.mentee_name = self.tab1.table.item(row, 2).text()
 
     def meeting_attendance(self):
@@ -185,3 +190,6 @@ class TableWindow(QDialog):  # todo -> make button for parent letter for default
     def academic_achievement_record(self):
         academic_achievement_record = AcademicAchievementsDashboard(self.db_name, self.mentee_name)
         academic_achievement_record.exec()
+
+    def defaulter_documentation(self):
+        pass

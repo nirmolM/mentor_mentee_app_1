@@ -1,3 +1,5 @@
+# todo -> try to implement outlook email functionality, include parent email in database
+
 import sys
 from PyQt6.QtWidgets import QApplication
 import windows.login_window

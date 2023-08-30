@@ -24,7 +24,7 @@ def create_table(database_name: str):
     create_main_table_command = 'CREATE TABLE mentee_details (reg_id char(5) PRIMARY KEY, ' \
                                 'Smart_card_no varchar(20), Name varchar(150), Admitted_year varchar(10), ' \
                                 'sakec_email varchar(100), microsoft_email varchar(100), mobile varchar(15),' \
-                                'current_division varchar(4), current_roll_no varchar(2),' \
+                                'current_division varchar(4), current_roll_no varchar(15),' \
                                 'date_of_birth varchar(11), place_of_birth varchar(11), ' \
                                 'Residential_Address varchar(255), Correspondent_Address varchar(255), ' \
                                 'Blood_group varchar(4),' \
