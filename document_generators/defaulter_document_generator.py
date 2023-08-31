@@ -4,6 +4,7 @@ from datetime import date
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 
 
+# todo -> Make Undertaking document generator
 def parent_letter_generator(defaulter_details: dict, filepath: str, mentor_name: str):
     today = date.today()
     doc = Document()
