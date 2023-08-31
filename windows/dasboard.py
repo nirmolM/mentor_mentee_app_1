@@ -14,15 +14,18 @@ from windows.button_classes.meeting_attendance import MeetingAttendanceWindow
 from windows.button_classes.leave_calculator import LeaveCalculatorDashboard
 from windows.button_classes.ptm_dashboard import PTMDashboard
 from windows.button_classes.academic_achievement_record import AcademicAchievementsDashboard
+from windows.button_classes.defaulter_documentation import DefaulterDocumentGenerator
 
 
 class TableWindow(QDialog):  # todo -> make button for parent letter for defaulters(template given by vidya mam in mail)
     def __init__(self, db_name: str, created_now: bool):
         super().__init__()
+        self.address, self.father_name = None, None
         self.mentee_name, self.path = None, None
         self.db_name = db_name
         self.setWindowTitle("Mentor - Mentee Dashboard")
-        self.showFullScreen()
+        # self.showFullScreen()
+        self.setMinimumSize(1280, 720)
         layout = QGridLayout()
         path_label = QLabel("Select xls/xlsx file to load data")
         get_path_button = QPushButton("Open")
@@ -86,6 +89,7 @@ class TableWindow(QDialog):  # todo -> make button for parent letter for default
             layout.addWidget(self.generate_mentee_action_ticket, 6, 0)
             layout.addWidget(self.generate_leave_button, 6, 1)
             layout.addWidget(self.generate_academic_achievement_lor_loa_button, 6, 2)
+            layout.addWidget(self.generate_defaulter_document_button, 6, 3)
             layout.addWidget(self.generate_student_details_button, 6, 4)
         else:
             self.write_table_button.setDisabled(True)
@@ -169,6 +173,8 @@ class TableWindow(QDialog):  # todo -> make button for parent letter for default
         self.generate_academic_achievement_lor_loa_button.setDisabled(False)
         self.generate_defaulter_document_button.setDisabled(False)
         self.mentee_name = self.tab1.table.item(row, 2).text()
+        self.father_name = self.tab2.table.item(8)
+        self.address = self.tab2.table.item(3)
 
     def meeting_attendance(self):
         meeting_attendance_window = MeetingAttendanceWindow(self.tab1.table, self.db_name)
@@ -192,4 +198,6 @@ class TableWindow(QDialog):  # todo -> make button for parent letter for default
         academic_achievement_record.exec()
 
     def defaulter_documentation(self):
-        pass
+        defaulter_documentation = DefaulterDocumentGenerator(self.db_name, self.mentee_name,
+                                                             self.father_name, self.address)
+        defaulter_documentation.exec()
