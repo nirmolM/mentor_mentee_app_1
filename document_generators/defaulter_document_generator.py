@@ -21,8 +21,8 @@ def parent_letter_generator(defaulter_details: dict, filepath: str, mentor_name:
     dear_parent_line = doc.add_paragraph()
     dear_parent_line.add_run('Dear Parent,')
     content_para1 = doc.add_paragraph()
-    content_para1.add_run("This is to inform you that your ward is having less attendance in theory classes, "
-                          "practical sessions and tutorials.")
+    content_para1.add_run(f"This is to inform you that your ward is having less attendance "
+                          f"({defaulter_details['attendance']}) in theory classes, practical sessions and tutorials.")
     content_para1.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
     content_para2 = doc.add_paragraph()
     content_para2.add_run("As per the rule of Mumbai University, your ward will not be allowed to appear for the "
