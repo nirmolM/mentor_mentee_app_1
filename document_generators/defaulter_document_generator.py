@@ -4,7 +4,6 @@ from datetime import date
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 
 
-# todo -> Make Undertaking document generator
 def parent_letter_generator(defaulter_details: dict, filepath: str, mentor_name: str):
     today = date.today()
     doc = Document()
@@ -21,7 +20,7 @@ def parent_letter_generator(defaulter_details: dict, filepath: str, mentor_name:
     dear_parent_line = doc.add_paragraph()
     dear_parent_line.add_run('Dear Parent,')
     content_para1 = doc.add_paragraph()
-    content_para1.add_run(f"This is to inform you that your ward is having less attendance "
+    content_para1.add_run(f"This is to inform you that your ward {defaulter_details['name']}, is having less attendance "
                           f"({defaulter_details['attendance']}) in theory classes, practical sessions and tutorials.")
     content_para1.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
     content_para2 = doc.add_paragraph()
@@ -36,3 +35,36 @@ def parent_letter_generator(defaulter_details: dict, filepath: str, mentor_name:
     hod_signature_line.add_run("Head of Department").bold = True
     doc_opt.line_space_setter(doc)
     doc.save(f"{filepath}/{defaulter_details['name']} Parent Letter {today.strftime('%B %d, %Y')}.docx")
+
+
+def undertaking_student(defaulter_details: dict, filepath: str, mentor_name: str):  # todo -> add semester logic
+    today = date.today()
+    doc = Document()
+    doc_opt.make_header_for_doc(doc)
+    doc_opt.make_heading_for_doc(doc, 'UNDERTAKING', mentor_name, today.strftime("%B %d, %Y"))
+    subject_line = doc.add_paragraph()
+    subject_line.add_run("Subject: Attendance of student in theory classes &amp; practical sessions.").bold = True
+    subject_line.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+    name_line = doc.add_paragraph()
+    name_line.add_run(f"Name: {defaulter_details['name']}").bold = True
+    division_line = doc.add_paragraph()
+    division_line.add_run(f"Class/Division: {defaulter_details['division']}").bold = True
+    roll_no_line = doc.add_paragraph()
+    roll_no_line.add_run(f"Roll No: {defaulter_details['roll_no']}").bold = True
+    content_para1 = doc.add_paragraph()
+    content_para1.add_run(f"I, {defaulter_details['name']}, the undersigned, student of this college, am fully aware "
+                          f"that I am required to attend classes on all the working days and due to any genuine "
+                          f"reason, if I am not in a position to attend on any day, I shall inform my HOD in writing "
+                          f"in advance and take her permission to remain absent. If I could not attend on any day, "
+                          f"I shall inform on next working day.")
+    content_para1.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
+    content_para2 = doc.add_paragraph()
+    content_para2.add_run("I also clearly understand that I will not be allowed to appear for the examination if I "
+                          "don’t attend at least minimum 75% classes of theory, tutorials and practical including "
+                          "drawing, I am also aware that I will not be allowed to appear for examination, if I fail to "
+                          "submit within stipulated time limit all the assignments, jobs, journals, drawing etc. "
+                          "satisfactorily, as specific by the university.")
+    content_para2.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
+    doc_opt.add_signature_line(doc, '', False, defaulter_details['name'], True, True)
+    doc_opt.line_space_setter(doc)
+    doc.save(f"{filepath}/{defaulter_details['name']} Undertaking {today.strftime('%B %d, %Y')}.docx")

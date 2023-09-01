@@ -1,10 +1,13 @@
 from PyQt6.QtWidgets import QDialog, QGridLayout, QLabel, QPushButton, QComboBox, QMessageBox, QFileDialog
 from working_data import password_giver as pg
+from document_generators import defaulter_document_generator as doc_gen
 
 
 class DefaulterDocumentGenerator(QDialog):
-    def __init__(self, db_name: str, mentee_name: str, father_name: str, address: str):
+    def __init__(self, db_name: str, mentee_name: str, father_name: str, address: str, roll_no: str, division: str):
         super().__init__()
+        self.roll_no = roll_no
+        self.division = division
         self.attendance_percentage = None
         self.father_name = father_name
         self.address = address
@@ -39,6 +42,10 @@ class DefaulterDocumentGenerator(QDialog):
             'name': self.mentee_name,
             'attendance': self.attendance_percentage,
             'father_name': self.father_name,
-            'address': self.address
+            'address': self.address,
+            'roll_no': self.roll_no,
+            'division': self.division
         }
         filepath = QFileDialog.getExistingDirectory(caption='Select Folder to save file')
+        doc_gen.parent_letter_generator(defaulter_details, filepath, pg.get_username())
+        doc_gen.undertaking_student(defaulter_details, filepath, pg.get_username())

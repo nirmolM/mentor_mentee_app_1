@@ -20,6 +20,8 @@ from windows.button_classes.defaulter_documentation import DefaulterDocumentGene
 class TableWindow(QDialog):  # todo -> make button for parent letter for defaulters(template given by vidya mam in mail)
     def __init__(self, db_name: str, created_now: bool):
         super().__init__()
+        self.roll_no = None
+        self.current_div = None
         self.address, self.father_name = None, None
         self.mentee_name, self.path = None, None
         self.db_name = db_name
@@ -175,6 +177,8 @@ class TableWindow(QDialog):  # todo -> make button for parent letter for default
         self.mentee_name = self.tab1.table.item(row, 2).text()
         self.father_name = self.tab2.table.item(8)
         self.address = self.tab2.table.item(3)
+        self.current_div = self.tab1.table.item(7)
+        self.roll_no = self.tab1.table.item(8)
 
     def meeting_attendance(self):
         meeting_attendance_window = MeetingAttendanceWindow(self.tab1.table, self.db_name)
@@ -199,5 +203,6 @@ class TableWindow(QDialog):  # todo -> make button for parent letter for default
 
     def defaulter_documentation(self):
         defaulter_documentation = DefaulterDocumentGenerator(self.db_name, self.mentee_name,
-                                                             self.father_name, self.address)
+                                                             self.father_name, self.address, self.roll_no,
+                                                             self.current_div)
         defaulter_documentation.exec()
