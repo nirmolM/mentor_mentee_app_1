@@ -21,7 +21,6 @@ def create_table(database_name: str):
     connection_local = make_connection()
     cursor_local = connection_local.cursor()
     cursor_local.execute(f"USE {database_name}")  # Will select Database that is passed as argument in the function
-    print("where is error")
     create_main_table_command = 'CREATE TABLE mentee_details (reg_id char(5) PRIMARY KEY, ' \
                                 'Smart_card_no varchar(20), Name varchar(150), Admitted_year varchar(10), ' \
                                 'sakec_email varchar(100), microsoft_email varchar(100), mobile varchar(15),' \
@@ -43,7 +42,6 @@ def create_table(database_name: str):
                                 'project_competitions varchar(20), ' \
                                 'Placement_status varchar(20), higher_studies_status varchar(20), ' \
                                 'entrepreneurship_status varchar(20))'
-    print("main table made")
     cursor_local.execute(create_main_table_command)
     create_name_index_command = 'CREATE INDEX idx_mentee_details_name ON mentee_details(Name)'
     cursor_local.execute(create_name_index_command)

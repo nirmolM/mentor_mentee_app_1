@@ -74,11 +74,12 @@ def make_name_parent_table_for_doc(doc_object, mentee_data, guardian_para_flag=T
     for i, width in enumerate(widths_1):
         name_table.columns[i].width = Cm(width)
         name_table.rows[i].cells[i].width = Cm(width)
-    parent_table = doc_object.add_table(rows=3, cols=4)
+    parent_table = doc_object.add_table(rows=4, cols=4)
     parent_table.alignment = WD_TABLE_ALIGNMENT.CENTER
     data_to_add = [("", "Mother", "Father", "Guardian"),
-                   ("Name: ", mentee_data[3], mentee_data[5], mentee_data[7]),
-                   ("Contact No: ", mentee_data[4], mentee_data[6], mentee_data[8])]
+                   ("Name: ", mentee_data[3], mentee_data[6], mentee_data[9]),
+                   ("Contact No: ", mentee_data[4], mentee_data[7], mentee_data[10]),
+                   ("Email Id: ", mentee_data[5], mentee_data[8], mentee_data[11])]
     for row_index, data_row in enumerate(data_to_add):
         row = parent_table.rows[row_index]
         for col_index, cell_value in enumerate(data_row):

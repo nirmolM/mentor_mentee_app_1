@@ -35,15 +35,14 @@ class PTMDashboard(QDialog):
         self.date = selected_date.toString()
 
     def generate_ptm_docs(self):
-        # todo -> fix parent details fetch (because of including email id col no are to be changed)
         mentee_details, names = [], []
         for row in range(self.table_object.rowCount()):
             row_items = [self.table_object.item(row, col).text() for col in range(self.table_object.columnCount())]
             names.append(row_items[0])
-            mentee_details.extend(row_items[6:12])
+            mentee_details.extend(row_items[6:15])
         roll_no_div_list = [list(item) for sublist in tb_opt.fetch_roll_no_div(self.db_name, names) for item in sublist]
         basic_details = [[name, *roll_no_div] for name, roll_no_div in zip(names, roll_no_div_list)]
-        par_det_list = [mentee_details[i:i + 6] for i in range(0, len(mentee_details), 6)]
+        par_det_list = [mentee_details[i:i + 9] for i in range(0, len(mentee_details), 9)]
         final_details = [[*basic_detail, *par_det] for basic_detail, par_det in zip(basic_details, par_det_list)]
         filepath = QFileDialog.getExistingDirectory(caption='Select Folder to save files')
         with concurrent.futures.ThreadPoolExecutor() as executor:
