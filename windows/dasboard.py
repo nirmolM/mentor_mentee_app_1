@@ -99,7 +99,7 @@ class TableWindow(QDialog):  # todo -> make button for parent letter for default
             layout.addWidget(path_label, 1, 3)
             layout.addWidget(get_path_button, 1, 4)
         layout.addWidget(dashboard_label, 0, 0)
-        layout.addWidget(close_window_button, 1, 4)
+        layout.addWidget(close_window_button, 0, 4)
         layout.addWidget(tab_widget, 2, 0, 1, 5)
         self.setLayout(layout)
 
@@ -160,7 +160,7 @@ class TableWindow(QDialog):  # todo -> make button for parent letter for default
         self.generate_ptm_docs_button.setDisabled(False)
 
     def table_write_function_calls(self, rows: list):
-        ranges = [(rows, None, None), (rows, 9, 20), (rows, 20, 29), (rows, 29, 37), (rows, 37, 44), (rows, 44, 47)]
+        ranges = [(rows, None, None), (rows, 9, 23), (rows, 23, 32), (rows, 32, 40), (rows, 40, 47), (rows, 47, 50)]
 
         def write_to_table_wrapper(args):
             table, (rows_local, start, end) = args
@@ -175,7 +175,7 @@ class TableWindow(QDialog):  # todo -> make button for parent letter for default
         self.generate_academic_achievement_lor_loa_button.setDisabled(False)
         self.generate_defaulter_document_button.setDisabled(False)
         self.mentee_name = self.tab1.table.item(row, 2).text()
-        self.father_name = self.tab2.table.item(8)
+        self.father_name = self.tab2.table.item(9)
         self.address = self.tab2.table.item(3)
         self.current_div = self.tab1.table.item(7)
         self.roll_no = self.tab1.table.item(8)

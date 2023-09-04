@@ -1,4 +1,4 @@
-# todo -> try to implement outlook email functionality, include parent email in database
+# todo -> try to implement outlook email functionality
 
 import sys
 from PyQt6.QtWidgets import QApplication

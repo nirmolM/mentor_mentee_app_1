@@ -21,6 +21,7 @@ def create_table(database_name: str):
     connection_local = make_connection()
     cursor_local = connection_local.cursor()
     cursor_local.execute(f"USE {database_name}")  # Will select Database that is passed as argument in the function
+    print("where is error")
     create_main_table_command = 'CREATE TABLE mentee_details (reg_id char(5) PRIMARY KEY, ' \
                                 'Smart_card_no varchar(20), Name varchar(150), Admitted_year varchar(10), ' \
                                 'sakec_email varchar(100), microsoft_email varchar(100), mobile varchar(15),' \
@@ -28,9 +29,9 @@ def create_table(database_name: str):
                                 'date_of_birth varchar(11), place_of_birth varchar(11), ' \
                                 'Residential_Address varchar(255), Correspondent_Address varchar(255), ' \
                                 'Blood_group varchar(4),' \
-                                'Mother_name varchar(20), mother_mobile varchar(15), ' \
-                                'Father_name varchar(20), father_mobile varchar(15), ' \
-                                'Guardian_name varchar(20), guardian_mobile varchar(15), ' \
+                                'Mother_name varchar(20), mother_mobile varchar(15), mother_email varchar(25), ' \
+                                'Father_name varchar(20), father_mobile varchar(15), father_email varchar(25), ' \
+                                'Guardian_name varchar(20), guardian_mobile varchar(15), guardian_email varchar(25), ' \
                                 '10th_percent varchar(5), 10th_institute varchar(50), 10th_board varchar(10), ' \
                                 '12th_percent varchar(5), 12th_institute varchar(50), 12th_board varchar(10), ' \
                                 'CET_marks varchar(3), JEE_marks varchar(3), Diploma_percent varchar(4), ' \
@@ -42,6 +43,7 @@ def create_table(database_name: str):
                                 'project_competitions varchar(20), ' \
                                 'Placement_status varchar(20), higher_studies_status varchar(20), ' \
                                 'entrepreneurship_status varchar(20))'
+    print("main table made")
     cursor_local.execute(create_main_table_command)
     create_name_index_command = 'CREATE INDEX idx_mentee_details_name ON mentee_details(Name)'
     cursor_local.execute(create_name_index_command)
@@ -99,7 +101,9 @@ def write_data_in_table(database_name: str, rows: list):
     header_str = "reg_id, Smart_card_no, Name, Admitted_year, sakec_email, microsoft_email, mobile, " \
                  "current_division, current_roll_no, " \
                  "date_of_birth, place_of_birth, Residential_Address, Correspondent_Address, Blood_group, " \
-                 "Mother_name, mother_mobile, Father_name, father_mobile, Guardian_name, guardian_mobile, " \
+                 "Mother_name, mother_mobile, mother_email, " \
+                 "Father_name, father_mobile, father_email, " \
+                 "Guardian_name, guardian_mobile, guardian_email, " \
                  "10th_percent, 10th_institute, 10th_board, " \
                  "12th_percent, 12th_institute, 12th_board, " \
                  "CET_marks, JEE_marks, Diploma_percent, " \
@@ -125,7 +129,9 @@ def update_data_in_table(database_name: str, rows: list):
     header_str = "reg_id, Smart_card_no, Name, Admitted_year, sakec_email, microsoft_email, mobile, " \
                  "current_division, current_roll_no, " \
                  "date_of_birth, place_of_birth, Residential_Address, Correspondent_Address, Blood_group, " \
-                 "Mother_name, mother_mobile, Father_name, father_mobile, Guardian_name, guardian_mobile, " \
+                 "Mother_name, mother_mobile, mother_email, " \
+                 "Father_name, father_mobile, father_email, " \
+                 "Guardian_name, guardian_mobile, guardian_email, " \
                  "10th_percent, 10th_institute, 10th_board, " \
                  "12th_percent, 12th_institute, 12th_board, " \
                  "CET_marks, JEE_marks, Diploma_percent, " \

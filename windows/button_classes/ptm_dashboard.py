@@ -35,6 +35,7 @@ class PTMDashboard(QDialog):
         self.date = selected_date.toString()
 
     def generate_ptm_docs(self):
+        # todo -> fix parent details fetch (because of including email id col no are to be changed)
         mentee_details, names = [], []
         for row in range(self.table_object.rowCount()):
             row_items = [self.table_object.item(row, col).text() for col in range(self.table_object.columnCount())]

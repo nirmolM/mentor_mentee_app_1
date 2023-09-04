@@ -13,7 +13,7 @@ class GeneralDetailTab(QWidget):
             self.table.setColumnWidth(column, size)
         table_header = ("Reg Id", "Smart Card No", "Name", "Admitted Year",
                         "sakec e-mail ID", "microsoft e-mail ID", "Mobile",
-                        "Current Division", "Current Roll No")
+                        "Current Division", "Permanent Roll No")
         self.table.setHorizontalHeaderLabels(table_header)
         self.table.verticalHeader().setVisible(False)
         layout.addWidget(self.table, 0, 0, 1, 3)
