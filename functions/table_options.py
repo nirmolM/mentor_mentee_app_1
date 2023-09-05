@@ -62,6 +62,10 @@ def create_table(database_name: str):
                                           'letter_type varchar(25), issuing_faculty_name varchar(35), ' \
                                           'reason varchar(35), FOREIGN KEY (reg_id) REFERENCES mentee_details(reg_id))'
     cursor_local.execute(create_lor_loa_record_table_command)
+    create_defaulters_details_table_command = 'CREATE TABLE defaulters (defaulter_id SERIAL PRIMARY KEY, ' \
+                                              'reg_id char(5), wef_date DATE, attendance_percentage varchar(6), ' \
+                                              'FOREIGN KEY (reg_id) REFERENCES mentee_details(reg_id))'
+    cursor_local.execute(create_defaulters_details_table_command)
     cursor_local.close()
     connection_local.close()
 
@@ -217,7 +221,7 @@ def fetch_academic_achievements(database_name: str, mentee_name: str):
                                         "aa.subject, aa.semester, " \
                                         "aa.year, aa.academic_year FROM mentee_details md " \
                                         "JOIN academic_achievements aa ON md.reg_id = aa.reg_id WHERE md.Name = %s"
-    cursor_local.execute(academic_achievement_detail_query, (student_name_for_query, ))
+    cursor_local.execute(academic_achievement_detail_query, (student_name_for_query,))
     result = cursor_local.fetchall()
     return result
 
@@ -248,6 +252,36 @@ def fetch_lor_loa_details(database_name: str, mentee_name: str):
     lor_loa_detail_query = "SELECT md.Name, ll.letter_type, ll.issuing_faculty_name, ll.reason " \
                            "FROM mentee_details md JOIN lor_loa ll ON md.reg_id = ll.reg_id WHERE md.Name = %s"
     cursor_local.execute(lor_loa_detail_query, (student_name_for_query,))
+    result = cursor_local.fetchall()
+    return result
+
+
+def write_defaulters_table(database_name: str, defaulter_details: dict):
+    connection_local = make_connection()
+    cursor_local = connection_local.cursor()
+    cursor_local.execute(f"USE {database_name}")
+    reg_id_query = "SELECT reg_id FROM mentee_details WHERE Name = %s"
+    name_value = defaulter_details['name']
+    cursor_local.execute(reg_id_query, (name_value,))
+    reg_id = cursor_local.fetchone()[0]
+    cursor_local.execute("SELECT * FROM defaulters")
+    header_str = 'reg_id, wef_date, attendance_percentage'
+    values = (reg_id, defaulter_details['date'], defaulter_details['attendance'])
+    cursor_local.execute(f"INSERT INTO defaulters({header_str}) VALUES({', '.join(['%s'] * len(values))})",
+                         values)
+    connection_local.commit()
+    cursor_local.close()
+    connection_local.close()
+
+
+def fetch_defaulters_details(database_name: str, mentee_name: str):
+    connection_local = make_connection()
+    cursor_local = connection_local.cursor()
+    cursor_local.execute(f"USE {database_name}")
+    student_name_for_query = mentee_name
+    defaulters_query = "SELECT md.Name, d.wef_date, d.attendance_percentage" \
+                       "FROM mentee_details md JOIN defaulters d ON md.reg_id = d.reg_id WHERE md.Name = %s"
+    cursor_local.execute(defaulters_query, (student_name_for_query,))
     result = cursor_local.fetchall()
     return result
 
