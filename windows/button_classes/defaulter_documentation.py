@@ -26,6 +26,7 @@ class DefaulterDocumentGenerator(QDialog):
         self.attendance_box.addItems(attendance_percent)
         self.attendance_box.setCurrentIndex(3)
         self.attendance_box.currentTextChanged.connect(self.attendance_giver)
+        self.attendance_box.setDisabled(True)
         self.generate_defaulter_documentation_button = QPushButton("Generate Letter to Parent\nGenerate Undertaking")
         self.generate_defaulter_documentation_button.setDisabled(True)
         self.generate_defaulter_documentation_button.clicked.connect(self.generate_defaulter_document)
@@ -37,16 +38,17 @@ class DefaulterDocumentGenerator(QDialog):
         layout = QGridLayout()
         layout.addWidget(mentee_name_label, 0, 0, 1, 2)
         layout.addWidget(mentor_name_label, 1, 0, 1, 2)
-        layout.addWidget(attendance_label, 2, 0)
-        layout.addWidget(self.attendance_box, 2, 1)
-        layout.addWidget(date_label, 3, 0)
-        layout.addWidget(self.calendar, 4, 0)
+        layout.addWidget(date_label, 2, 0)
+        layout.addWidget(self.calendar, 3, 0)
+        layout.addWidget(attendance_label, 4, 0)
+        layout.addWidget(self.attendance_box, 4, 1)
         layout.addWidget(self.generate_defaulter_documentation_button, 5, 1)
         self.setLayout(layout)
 
     def on_date_selected(self):
         selected_date = self.calendar.selectedDate()
         self.date = selected_date.toString("yyyy-MM-dd")
+        self.attendance_box.setDisabled(False)
 
     def attendance_giver(self):
         self.attendance_box.removeItem(3)
@@ -73,8 +75,7 @@ class DefaulterDocumentGenerator(QDialog):
         confirmation_widget.setIcon(QMessageBox.Icon.Information)
         confirmation_widget.setText("The Data was written to Database successfully!\n"
                                     "Defaulters Documents:\n"
-                                    "(Letter to Parent)\n "
-                                    "(Undertaking)\n"
+                                    "(Letter to Parent and Undertaking)\n"
                                     "were generated successfully!")
         confirmation_widget.setStandardButtons(QMessageBox.StandardButton.Ok)
         message = confirmation_widget.exec()
