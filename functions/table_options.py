@@ -8,8 +8,6 @@ Possible Errors:
 """
 
 
-# todo -> Make common function to get reg_id
-
 def make_connection():
     """This will make a connection for a selected database
     This is used to Make, Show and Remove tables in a given database"""
@@ -17,10 +15,21 @@ def make_connection():
     return connection
 
 
+def give_reg_id(database_name: str, dictionary: dict):
+    connection_local = make_connection()
+    cursor_local = connection_local.cursor()
+    cursor_local.execute(f"USE {database_name}")
+    reg_id_query = "SELECT reg_id FROM mentee_details WHERE Name = %s"
+    name_value = dictionary['name']
+    cursor_local.execute(reg_id_query, (name_value,))
+    reg_id_local = cursor_local.fetchone()[0]
+    return reg_id_local
+
+
 def create_table(database_name: str):
     connection_local = make_connection()
     cursor_local = connection_local.cursor()
-    cursor_local.execute(f"USE {database_name}")  # Will select Database that is passed as argument in the function
+    cursor_local.execute(f"USE {database_name}")
     create_main_table_command = 'CREATE TABLE mentee_details (reg_id char(5) PRIMARY KEY, ' \
                                 'Smart_card_no varchar(20), Name varchar(150), Admitted_year varchar(10), ' \
                                 'sakec_email varchar(100), microsoft_email varchar(100), mobile varchar(15),' \
@@ -164,10 +173,7 @@ def write_leave_table(database_name: str, leave_details: dict):
     connection_local = make_connection()
     cursor_local = connection_local.cursor()
     cursor_local.execute(f"USE {database_name}")
-    reg_id_query = "SELECT reg_id FROM mentee_details WHERE Name = %s"
-    name_value = leave_details['name']
-    cursor_local.execute(reg_id_query, (name_value,))
-    reg_id = cursor_local.fetchone()[0]
+    reg_id = give_reg_id(database_name, leave_details)
     cursor_local.execute("SELECT * FROM leaves")
     header_str = 'reg_id, leave_date_start, leave_date_end, leave_duration, reason, description, document_given'
     values = (reg_id, leave_details['start_date'], leave_details['end_date'], leave_details['duration'],
@@ -196,10 +202,7 @@ def write_academic_achievements_table(database_name: str, academic_achievement_d
     connection_local = make_connection()
     cursor_local = connection_local.cursor()
     cursor_local.execute(f"USE {database_name}")
-    reg_id_query = "SELECT reg_id FROM mentee_details WHERE Name = %s"
-    name_value = academic_achievement_details['name']
-    cursor_local.execute(reg_id_query, (name_value,))
-    reg_id = cursor_local.fetchone()[0]
+    reg_id = give_reg_id(database_name, academic_achievement_details)
     cursor_local.execute("SELECT * FROM academic_achievements")
     header_str = 'reg_id, achievement_type, achievement_rank, subject, semester, year, academic_year'
     values = (reg_id, academic_achievement_details['achievement_type'], academic_achievement_details['rank'],
@@ -230,10 +233,7 @@ def write_lor_loa_table(database_name: str, lor_loa_details: dict):
     connection_local = make_connection()
     cursor_local = connection_local.cursor()
     cursor_local.execute(f"USE {database_name}")
-    reg_id_query = "SELECT reg_id FROM mentee_details WHERE Name = %s"
-    name_value = lor_loa_details['name']
-    cursor_local.execute(reg_id_query, (name_value,))
-    reg_id = cursor_local.fetchone()[0]
+    reg_id = give_reg_id(database_name, lor_loa_details)
     cursor_local.execute("SELECT * FROM lor_loa")
     header_str = 'reg_id, letter_type, issuing_faculty_name, reason'
     values = (reg_id, lor_loa_details['letter_type'], lor_loa_details['issuing_faculty'], lor_loa_details['reason'])
@@ -260,10 +260,7 @@ def write_defaulters_table(database_name: str, defaulter_details: dict):
     connection_local = make_connection()
     cursor_local = connection_local.cursor()
     cursor_local.execute(f"USE {database_name}")
-    reg_id_query = "SELECT reg_id FROM mentee_details WHERE Name = %s"
-    name_value = defaulter_details['name']
-    cursor_local.execute(reg_id_query, (name_value,))
-    reg_id = cursor_local.fetchone()[0]
+    reg_id = give_reg_id(database_name, defaulter_details)
     cursor_local.execute("SELECT * FROM defaulters")
     header_str = 'reg_id, wef_date, attendance_percentage'
     values = (reg_id, defaulter_details['date'], defaulter_details['attendance'])
@@ -284,16 +281,3 @@ def fetch_defaulters_details(database_name: str, mentee_name: str):
     cursor_local.execute(defaulters_query, (student_name_for_query,))
     result = cursor_local.fetchall()
     return result
-
-
-def fetch_roll_no_div(database_name: str, mentee_names: list):
-    details_to_return = []
-    connection_local = make_connection()
-    cursor_local = connection_local.cursor()
-    cursor_local.execute(f"USE {database_name}")
-    roll_no_division_query = "SELECT md.current_roll_no, md.current_division FROM mentee_details md WHERE md.Name = %s"
-    for name in mentee_names:
-        cursor_local.execute(roll_no_division_query, (name,))
-        result = cursor_local.fetchall()
-        details_to_return.append(result)
-    return details_to_return

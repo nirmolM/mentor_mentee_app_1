@@ -90,11 +90,9 @@ def mk_parent_feedback_pg(mentor_name: str, meeting_date: str, mentee_data: list
     other_sug = doc_object.add_paragraph('\n')
     other_sug.add_run("Any Other Suggestion: ").bold = True
     other_sug.add_run("____________________________________________________________\n\n")
-    other_sug.add_run("________________________________________________________________________________________\n\n")
+    other_sug.add_run("________________________________________________________________________________________\n")
     doc_opt.add_signature_line(doc_object, '', False, '', False, True)
     doc_opt.line_space_setter(doc_object)
-    run = doc_object.add_paragraph().add_run()
-    run.add_break(WD_BREAK.PAGE)
     return doc_object
 
 

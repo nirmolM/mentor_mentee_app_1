@@ -194,7 +194,7 @@ class TableWindow(QDialog):
         leave_calculator_window.exec()
 
     def generate_ptm_docs(self):
-        generate_ptm_window = PTMDashboard(self.tab2.table, self.db_name)
+        generate_ptm_window = PTMDashboard(self.tab2.table, self.tab1.table, self.db_name)
         generate_ptm_window.exec()
 
     def academic_achievement_record(self):

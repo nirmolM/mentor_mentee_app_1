@@ -118,7 +118,7 @@ def add_signature_line(doc_object,
         mentee_signature_line.add_run(f'\n{mentee_name}').bold = True
     if parent_flg:
         parent_signature_line = doc_object.add_paragraph()
-        parent_signature_line.add_run("\n\n_________________________________________\n")
+        parent_signature_line.add_run("\n_________________________________________\n")
         parent_signature_line.add_run("Parent/Guardian").bold = True
 
 

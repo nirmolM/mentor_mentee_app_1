@@ -7,12 +7,13 @@ from working_data import password_giver as pg
 
 
 class PTMDashboard(QDialog):
-    def __init__(self, table_object, db_name: str):
+    def __init__(self, table_object2, table_object1, db_name: str):
         super().__init__()
         self.setWindowTitle("PTM Documents Generator")
         self.date = None
         self.db_name = db_name
-        self.table_object = table_object
+        self.table_object2 = table_object2
+        self.table_object1 = table_object1
         self.mentor_name = QLabel(f"Mentor - {pg.get_username()}")
         date_label = QLabel('Set PTM Date')
         self.calendar = QCalendarWidget()
@@ -36,11 +37,13 @@ class PTMDashboard(QDialog):
 
     def generate_ptm_docs(self):
         mentee_details, names = [], []
-        for row in range(self.table_object.rowCount()):
-            row_items = [self.table_object.item(row, col).text() for col in range(self.table_object.columnCount())]
+        for row in range(self.table_object2.rowCount()):
+            row_items = [self.table_object2.item(row, col).text() for col in range(self.table_object2.columnCount())]
             names.append(row_items[0])
             mentee_details.extend(row_items[6:15])
-        roll_no_div_list = [list(item) for sublist in tb_opt.fetch_roll_no_div(self.db_name, names) for item in sublist]
+        new_list = [self.table_object1.item(row, col).text() for row in range(self.table_object1.rowCount()) for col in
+                    range(7, 9)]
+        roll_no_div_list = list(zip(new_list[1::2], new_list[::2]))
         basic_details = [[name, *roll_no_div] for name, roll_no_div in zip(names, roll_no_div_list)]
         par_det_list = [mentee_details[i:i + 9] for i in range(0, len(mentee_details), 9)]
         final_details = [[*basic_detail, *par_det] for basic_detail, par_det in zip(basic_details, par_det_list)]
