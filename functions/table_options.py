@@ -279,7 +279,7 @@ def fetch_defaulters_details(database_name: str, mentee_name: str):
     cursor_local = connection_local.cursor()
     cursor_local.execute(f"USE {database_name}")
     student_name_for_query = mentee_name
-    defaulters_query = "SELECT md.Name, d.wef_date, d.attendance_percentage" \
+    defaulters_query = "SELECT md.Name, d.wef_date, d.attendance_percentage " \
                        "FROM mentee_details md JOIN defaulters d ON md.reg_id = d.reg_id WHERE md.Name = %s"
     cursor_local.execute(defaulters_query, (student_name_for_query,))
     result = cursor_local.fetchall()
