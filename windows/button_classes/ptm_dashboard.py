@@ -1,8 +1,7 @@
 import concurrent.futures
 from PyQt6.QtCore import QDate
 from PyQt6.QtWidgets import QDialog, QLabel, QCalendarWidget, QPushButton, QVBoxLayout, QFileDialog, QMessageBox
-from document_generators import parent_meet_document_generator as pm_doc_gen
-from functions import table_options as tb_opt
+from document_generators import parent_meet_document_generator as doc_gen
 from working_data import password_giver as pg
 
 
@@ -36,11 +35,9 @@ class PTMDashboard(QDialog):
         self.date = selected_date.toString()
 
     def generate_ptm_docs(self):
-        mentee_details, names = [], []
-        for row in range(self.table_object2.rowCount()):
-            row_items = [self.table_object2.item(row, col).text() for col in range(self.table_object2.columnCount())]
-            names.append(row_items[0])
-            mentee_details.extend(row_items[6:15])
+        names = [self.table_object2.item(row, 0).text() for row in range(self.table_object2.rowCount())]
+        mentee_details = [self.table_object2.item(row, col).text() for row in range(self.table_object2.rowCount()) for
+                          col in range(6, 15)]
         new_list = [self.table_object1.item(row, col).text() for row in range(self.table_object1.rowCount()) for col in
                     range(7, 9)]
         roll_no_div_list = list(zip(new_list[1::2], new_list[::2]))
@@ -51,14 +48,14 @@ class PTMDashboard(QDialog):
         with concurrent.futures.ThreadPoolExecutor() as executor:
             futures, merged_doc_list = [], []
             for details in final_details:
-                future = executor.submit(pm_doc_gen.make_parent_meet_documents, self.mentor_name.text(), self.date,
+                future = executor.submit(doc_gen.make_parent_meet_documents, self.mentor_name.text(), self.date,
                                          details)
                 futures.append(future)
             for future in concurrent.futures.as_completed(futures):
                 merged_doc = future.result()
                 merged_doc_list.append(merged_doc)
-        pm_doc_gen.super_merger(merged_doc_list, filepath, self.date)
-        pm_doc_gen.ptm_attendance_generator(self.mentor_name.text(), filepath, self.date, final_details)
+        doc_gen.super_merger(merged_doc_list, filepath, self.date)
+        doc_gen.ptm_attendance_generator(self.mentor_name.text(), filepath, self.date, final_details)
         self.close()
         confirmation_widget = QMessageBox()
         confirmation_widget.setWindowTitle("Success")
