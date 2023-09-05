@@ -7,15 +7,12 @@ def make_connection():
     return connection
 
 
-def give_reg_id(database_name: str, details_dictionary: dict):
+def give_reg_id(database_name: str, mentee_name: str):
     connection_local = make_connection()
     cursor_local = connection_local.cursor()
     cursor_local.execute(f"USE {database_name}")
-    reg_id_query = "SELECT reg_id FROM mentee_details WHERE Name = %s"
-    name_value = details_dictionary['name']
-    cursor_local.execute(reg_id_query, (name_value,))
-    reg_id_local = cursor_local.fetchone()[0]
-    return reg_id_local
+    cursor_local.execute("SELECT reg_id FROM mentee_details WHERE Name = %s", (mentee_name,))
+    return cursor_local.fetchone()[0]
 
 
 def generalised_fetch_function(database_name: str, mentee_name: str, query: str):
@@ -183,7 +180,7 @@ def get_data_from_database(database_name: str):
 
 def write_leave_table(database_name: str, leave_details: dict):
     header_str = 'reg_id, leave_date_start, leave_date_end, leave_duration, reason, description, document_given'
-    values = (give_reg_id(database_name, leave_details), leave_details['start_date'], leave_details['end_date'],
+    values = (give_reg_id(database_name, leave_details['name']), leave_details['start_date'], leave_details['end_date'],
               leave_details['duration'], leave_details['reason'], leave_details['description'],
               leave_details['document'])
     generalised_write_function(database_name, 'leaves', header_str, values)
@@ -198,7 +195,7 @@ def fetch_leave_details(database_name: str, mentee_name: str):
 
 def write_academic_achievements_table(database_name: str, academic_achievement_details: dict):
     header_str = 'reg_id, achievement_type, achievement_rank, subject, semester, year, academic_year'
-    values = (give_reg_id(database_name, academic_achievement_details),
+    values = (give_reg_id(database_name, academic_achievement_details['name']),
               academic_achievement_details['achievement_type'], academic_achievement_details['rank'],
               academic_achievement_details['subject'], academic_achievement_details['semester'],
               academic_achievement_details['year'], academic_achievement_details['academic_year'])
@@ -215,7 +212,7 @@ def fetch_academic_achievements(database_name: str, mentee_name: str):
 
 def write_lor_loa_table(database_name: str, lor_loa_details: dict):
     header_str = 'reg_id, letter_type, issuing_faculty_name, reason'
-    values = (give_reg_id(database_name, lor_loa_details), lor_loa_details['letter_type'],
+    values = (give_reg_id(database_name, lor_loa_details['name']), lor_loa_details['letter_type'],
               lor_loa_details['issuing_faculty'], lor_loa_details['reason'])
     generalised_write_function(database_name, 'lor_loa', header_str, values)
 
@@ -228,7 +225,8 @@ def fetch_lor_loa_details(database_name: str, mentee_name: str):
 
 def write_defaulters_table(database_name: str, defaulter_details: dict):
     header_str = 'reg_id, wef_date, attendance_percentage'
-    values = (give_reg_id(database_name, defaulter_details), defaulter_details['date'], defaulter_details['attendance'])
+    values = (give_reg_id(database_name, defaulter_details['name']),
+              defaulter_details['date'], defaulter_details['attendance'])
     generalised_write_function(database_name, 'defaulters', header_str, values)
 
 
