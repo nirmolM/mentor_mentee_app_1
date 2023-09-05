@@ -88,31 +88,6 @@ def create_table(database_name: str):
     connection_local.close()
 
 
-def show_tables(database_name: str):
-    connection_local = make_connection()
-    cursor_local = connection_local.cursor()
-    select_db_command = f"USE {database_name}"
-    cursor_local.execute(select_db_command)
-    show_tb_command = "SHOW TABLES"
-    cursor_local.execute(show_tb_command)
-    table_list = cursor_local.fetchall()
-    table_names = [tables[0] for tables in table_list]
-    cursor_local.close()
-    connection_local.close()
-    return table_names
-
-
-def del_table(database_name: str, tb_name: str):
-    connection_local = make_connection()
-    cursor_local = connection_local.cursor()
-    select_db_command = f"USE {database_name}"
-    cursor_local.execute(select_db_command)
-    delete_table_command = f"DROP TABLE {tb_name}"
-    cursor_local.execute(delete_table_command)
-    cursor_local.close()
-    connection_local.close()
-
-
 def write_data_in_table(database_name: str, rows: list):
     connection_local = make_connection()
     cursor_local = connection_local.cursor()
