@@ -1,16 +1,8 @@
 import mysql.connector
 from working_data import password_giver as pg
 
-"""
-Possible Errors:
-1. localhost login error 10061, MEANS SERVICE not running
--> To remove error, go to start, search for services, search for MySQL and then enable it, or run it
-"""
-
 
 def make_connection():
-    """This will make a connection for a selected database
-    This is used to Make, Show and Remove tables in a given database"""
     connection = mysql.connector.connect(user='root', password=pg.give_password(), host='localhost', buffered=True)
     return connection
 
@@ -24,6 +16,14 @@ def give_reg_id(database_name: str, dictionary: dict):
     cursor_local.execute(reg_id_query, (name_value,))
     reg_id_local = cursor_local.fetchone()[0]
     return reg_id_local
+
+
+def generalised_fetch_function(database_name: str, mentee_name: str, query: str):
+    connection_local = make_connection()
+    cursor_local = connection_local.cursor()
+    cursor_local.execute(f"USE {database_name}")
+    cursor_local.execute(query, (mentee_name,))
+    return cursor_local.fetchall()
 
 
 def create_table(database_name: str):
@@ -186,16 +186,10 @@ def write_leave_table(database_name: str, leave_details: dict):
 
 
 def fetch_leave_details(database_name: str, mentee_name: str):
-    connection_local = make_connection()
-    cursor_local = connection_local.cursor()
-    cursor_local.execute(f"USE {database_name}")
-    student_name_for_query = mentee_name
     leave_detail_query = "SELECT md.Name, l.leave_date_start, l.leave_date_end, l.leave_duration, " \
                          "l.reason, l.description, l.document_given FROM mentee_details md JOIN leaves l " \
-                         "ON md.reg_id = l.reg_id WHERE md.Name = %s AND l.reason = %s"
-    cursor_local.execute(leave_detail_query, (student_name_for_query, 'Medical'))
-    result = cursor_local.fetchall()
-    return result
+                         "ON md.reg_id = l.reg_id WHERE md.Name = %s"
+    return generalised_fetch_function(database_name, mentee_name, leave_detail_query)
 
 
 def write_academic_achievements_table(database_name: str, academic_achievement_details: dict):
@@ -216,17 +210,11 @@ def write_academic_achievements_table(database_name: str, academic_achievement_d
 
 
 def fetch_academic_achievements(database_name: str, mentee_name: str):
-    connection_local = make_connection()
-    cursor_local = connection_local.cursor()
-    cursor_local.execute(f"USE {database_name}")
-    student_name_for_query = mentee_name
     academic_achievement_detail_query = "SELECT md.Name, aa.achievement_type, aa.achievement_rank, " \
                                         "aa.subject, aa.semester, " \
                                         "aa.year, aa.academic_year FROM mentee_details md " \
                                         "JOIN academic_achievements aa ON md.reg_id = aa.reg_id WHERE md.Name = %s"
-    cursor_local.execute(academic_achievement_detail_query, (student_name_for_query,))
-    result = cursor_local.fetchall()
-    return result
+    return generalised_fetch_function(database_name, mentee_name, academic_achievement_detail_query)
 
 
 def write_lor_loa_table(database_name: str, lor_loa_details: dict):
@@ -245,15 +233,9 @@ def write_lor_loa_table(database_name: str, lor_loa_details: dict):
 
 
 def fetch_lor_loa_details(database_name: str, mentee_name: str):
-    connection_local = make_connection()
-    cursor_local = connection_local.cursor()
-    cursor_local.execute(f"USE {database_name}")
-    student_name_for_query = mentee_name
     lor_loa_detail_query = "SELECT md.Name, ll.letter_type, ll.issuing_faculty_name, ll.reason " \
                            "FROM mentee_details md JOIN lor_loa ll ON md.reg_id = ll.reg_id WHERE md.Name = %s"
-    cursor_local.execute(lor_loa_detail_query, (student_name_for_query,))
-    result = cursor_local.fetchall()
-    return result
+    return generalised_fetch_function(database_name, mentee_name, lor_loa_detail_query)
 
 
 def write_defaulters_table(database_name: str, defaulter_details: dict):
@@ -272,12 +254,6 @@ def write_defaulters_table(database_name: str, defaulter_details: dict):
 
 
 def fetch_defaulters_details(database_name: str, mentee_name: str):
-    connection_local = make_connection()
-    cursor_local = connection_local.cursor()
-    cursor_local.execute(f"USE {database_name}")
-    student_name_for_query = mentee_name
     defaulters_query = "SELECT md.Name, d.wef_date, d.attendance_percentage " \
                        "FROM mentee_details md JOIN defaulters d ON md.reg_id = d.reg_id WHERE md.Name = %s"
-    cursor_local.execute(defaulters_query, (student_name_for_query,))
-    result = cursor_local.fetchall()
-    return result
+    return generalised_fetch_function(database_name, mentee_name, defaulters_query)
