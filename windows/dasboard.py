@@ -15,6 +15,7 @@ from windows.button_classes.leave_calculator import LeaveCalculatorDashboard
 from windows.button_classes.ptm_dashboard import PTMDashboard
 from windows.button_classes.academic_achievement_record import AcademicAchievementsDashboard
 from windows.button_classes.defaulter_documentation import DefaulterDocumentGenerator
+from windows.button_classes.special_action import SpecialMenteeAction
 
 
 class TableWindow(QDialog):
@@ -64,8 +65,9 @@ class TableWindow(QDialog):
         self.generate_student_details_button = QPushButton("Show Student Details")
         self.generate_student_details_button.clicked.connect(self.student_detail)
         self.generate_student_details_button.setDisabled(True)
-        # todo-> Write logic of mentee special action
-        self.generate_mentee_action_ticket = QPushButton("Generate Mentee Special Action Document")
+        self.generate_mentee_action_ticket = QPushButton("Generate Mentor-Mentee Issue Ticket")
+        self.generate_mentee_action_ticket.clicked.connect(self.mentee_issue)
+        self.generate_mentee_action_ticket.setDisabled(True)
         self.generate_ptm_docs_button = QPushButton("Generate PTM Documents")
         self.generate_ptm_docs_button.clicked.connect(self.generate_ptm_docs)
         self.generate_ptm_docs_button.setDisabled(True)
@@ -173,6 +175,7 @@ class TableWindow(QDialog):
         self.generate_student_details_button.setDisabled(False)
         self.generate_academic_achievement_lor_loa_button.setDisabled(False)
         self.generate_defaulter_document_button.setDisabled(False)
+        self.generate_mentee_action_ticket.setDisabled(False)
         self.mentee_name = self.tab1.table.item(row, 2).text()
         self.father_name = self.tab2.table.item(row, 9).text()
         self.address = self.tab2.table.item(row, 3).text()
@@ -206,3 +209,7 @@ class TableWindow(QDialog):
                                                              self.father_name, self.address, self.roll_no,
                                                              self.current_div)
         defaulter_documentation.exec()
+
+    def mentee_issue(self):
+        mentee_issue_ticket = SpecialMenteeAction(self.db_name, self.mentee_name)
+        mentee_issue_ticket.exec()

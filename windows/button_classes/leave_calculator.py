@@ -105,13 +105,15 @@ class LeaveCalculatorDashboard(QDialog):
         self.description = self.description_input.text()
         if self.reason_input.currentText() == "Other":
             self.reason = self.reason_input_text.text()
-        leave_details = {'name': self.mentee_name,
-                         'start_date': self.start_date,
-                         'end_date': self.end_date,
-                         'duration': self.day_count,
-                         'reason': self.reason,
-                         'description': self.description,
-                         'document': self.document_status}
+        leave_details = {
+            'name': self.mentee_name,
+            'start_date': self.start_date,
+            'end_date': self.end_date,
+            'duration': self.day_count,
+            'reason': self.reason,
+            'description': self.description,
+            'document': self.document_status
+        }
         tb_opt.write_leave_table(self.db_name, leave_details=leave_details)
         filepath = QFileDialog.getExistingDirectory(caption='Select Folder to save file')
         doc_gen.make_leave_record(leave_details, filepath, mentor_name=f"Mentor - {pg.get_username()}")

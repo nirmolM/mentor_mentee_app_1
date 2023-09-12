@@ -84,6 +84,10 @@ def create_table(database_name: str):
                                               'reg_id char(5), wef_date DATE, attendance_percentage varchar(6), ' \
                                               'FOREIGN KEY (reg_id) REFERENCES mentee_details(reg_id))'
     cursor_local.execute(create_defaulters_details_table_command)
+    create_special_action_details_table_command = 'CREATE TABLE special_action (action_id SERIAL PRIMARY KEY, ' \
+                                                  'reg_id char(5), issue varchar(100), description varchar(255), ' \
+                                                  'action varchar(255), outcome varchar(255), ' \
+                                                  'FOREIGN KEY (reg_id) REFERENCES mentee_details(reg_id))'
     cursor_local.close()
     connection_local.close()
 
@@ -209,3 +213,17 @@ def fetch_defaulters_details(database_name: str, mentee_name: str):
     defaulters_query = "SELECT md.Name, d.wef_date, d.attendance_percentage " \
                        "FROM mentee_details md JOIN defaulters d ON md.reg_id = d.reg_id WHERE md.Name = %s"
     return generalised_fetch_function(database_name, mentee_name, defaulters_query)
+
+
+def write_special_action_table(database_name: str, issue_details: dict):
+    header_str = 'reg_id, issue, description, action, outcome'
+    values = (give_reg_id(database_name, issue_details['name']),
+              issue_details['issue'], issue_details['issue_description'],
+              issue_details['action'], issue_details['outcome'])
+    generalised_write_function(database_name, 'special_action', header_str, values)
+
+
+def fetch_special_action_details(database_name: str, mentee_name: str):
+    special_action_query = "SELECT md.Name, sa.issue, sa.description, sa.action, sa.outcome " \
+                       "FROM mentee_details md JOIN special_action sa ON md.reg_id = sa.reg_id WHERE md.Name = %s"
+    return generalised_fetch_function(database_name, mentee_name, special_action_query)
