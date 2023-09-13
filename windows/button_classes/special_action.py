@@ -1,14 +1,17 @@
 from PyQt6.QtWidgets import QDialog, QGridLayout, QLabel, QPushButton, QLineEdit, QMessageBox, QFileDialog
 from functions import table_options as tb_opt
 from working_data import username_password_giver as upg
+from document_generators import special_action_generator as doc_gen
 
 
 class SpecialMenteeAction(QDialog):
-    def __init__(self, db_name: str, mentee_name: str):
+    def __init__(self, db_name: str, mentee_name: str, division: str, roll_no: str):
         super().__init__()
         self.action_taken_input_text, self.outcome_improvement_input_text = None, None
         self.issue_description_text, self.issue_input_text = None, None
         self.setWindowTitle("Mentor-Mentee Issue and Special Action")
+        self.division = division
+        self.roll_no = roll_no
         self.db_name = db_name
         self.mentee_name = mentee_name
         self.mentor_name = upg.get_username()
@@ -53,22 +56,23 @@ class SpecialMenteeAction(QDialog):
         self.outcome_improvement_input_text = self.outcome_improvement_input.text()
         issue_details = {
             'name': self.mentee_name,
+            'division': self.division,
+            'roll_no': self.roll_no,
             'issue': self.issue_input_text,
             'issue_description': self.issue_description_text,
             'action': self.action_taken_input_text,
             'outcome': self.outcome_improvement_input_text
         }
-        #  todo -> Make documentation code
         tb_opt.write_special_action_table(self.db_name, issue_details=issue_details)
-        """filepath = QFileDialog.getExistingDirectory(caption='Select Folder to save file')
-        doc_gen.make_leave_record(leave_details, filepath, mentor_name=f"Mentor - {pg.get_username()}")
+        filepath = QFileDialog.getExistingDirectory(caption='Select Folder to save file')
+        doc_gen.make_special_action_sheet(issue_details, filepath, mentor_name=f"Mentor - {upg.get_username()}")
         self.close()
         confirmation_widget = QMessageBox()
         confirmation_widget.setWindowTitle("Success")
         confirmation_widget.setIcon(QMessageBox.Icon.Information)
         confirmation_widget.setText("The Data was written to Database successfully!\n"
-                                    "Leave Record Document was generated successfully!")
+                                    "Special Action Ticket was generated successfully!")
         confirmation_widget.setStandardButtons(QMessageBox.StandardButton.Ok)
         message = confirmation_widget.exec()
         if message == QMessageBox.StandardButton.Ok:
-            confirmation_widget.close()"""
+            confirmation_widget.close()

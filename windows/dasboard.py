@@ -211,5 +211,5 @@ class TableWindow(QDialog):
         defaulter_documentation.exec()
 
     def mentee_issue(self):
-        mentee_issue_ticket = SpecialMenteeAction(self.db_name, self.mentee_name)
+        mentee_issue_ticket = SpecialMenteeAction(self.db_name, self.mentee_name, self.current_div, self.roll_no)
         mentee_issue_ticket.exec()

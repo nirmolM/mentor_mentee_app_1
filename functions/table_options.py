@@ -88,6 +88,7 @@ def create_table(database_name: str):
                                                   'reg_id char(5), issue varchar(100), description varchar(255), ' \
                                                   'action varchar(255), outcome varchar(255), ' \
                                                   'FOREIGN KEY (reg_id) REFERENCES mentee_details(reg_id))'
+    cursor_local.execute(create_special_action_details_table_command)
     cursor_local.close()
     connection_local.close()
 
