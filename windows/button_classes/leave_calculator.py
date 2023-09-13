@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QDialog, QGridLayout, QLabel, QCalendarWidget, QPush
     QRadioButton, QMessageBox, QFileDialog
 from functions import table_options as tb_opt
 from document_generators import leave_record_generator as doc_gen
-from working_data import password_giver as pg
+from working_data import username_password_giver as upg
 
 
 class LeaveCalculatorDashboard(QDialog):
@@ -116,7 +116,7 @@ class LeaveCalculatorDashboard(QDialog):
         }
         tb_opt.write_leave_table(self.db_name, leave_details=leave_details)
         filepath = QFileDialog.getExistingDirectory(caption='Select Folder to save file')
-        doc_gen.make_leave_record(leave_details, filepath, mentor_name=f"Mentor - {pg.get_username()}")
+        doc_gen.make_leave_record(leave_details, filepath, mentor_name=f"Mentor - {upg.get_username()}")
         self.close()
         confirmation_widget = QMessageBox()
         confirmation_widget.setWindowTitle("Success")

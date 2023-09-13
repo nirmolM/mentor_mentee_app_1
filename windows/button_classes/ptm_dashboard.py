@@ -2,7 +2,7 @@ import concurrent.futures
 from PyQt6.QtCore import QDate
 from PyQt6.QtWidgets import QDialog, QLabel, QCalendarWidget, QPushButton, QVBoxLayout, QFileDialog, QMessageBox
 from document_generators import parent_meet_document_generator as doc_gen
-from working_data import password_giver as pg
+from working_data import username_password_giver as upg
 
 
 class PTMDashboard(QDialog):
@@ -13,7 +13,7 @@ class PTMDashboard(QDialog):
         self.db_name = db_name
         self.table_object2 = table_object2
         self.table_object1 = table_object1
-        self.mentor_name = QLabel(f"Mentor - {pg.get_username()}")
+        self.mentor_name = QLabel(f"Mentor - {upg.get_username()}")
         date_label = QLabel('Set PTM Date')
         self.calendar = QCalendarWidget()
         self.calendar.setGridVisible(True)

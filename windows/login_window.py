@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QLabel, QWidget, QGridLayout, QPushButton, QMainWindow, QLineEdit, QMessageBox, QComboBox, \
     QDialog
 from PyQt6.QtGui import QAction, QPixmap
-import working_data.password_giver as pg
+import working_data.username_password_giver as upg
 from functions import database_options as db_opt
 from functions import table_options as tb_opt
 import windows.dasboard as wd
@@ -79,9 +79,9 @@ class MainWindow(QMainWindow):  # todo -> Add Icons
     def login(self):
         login_password = self.password_input.text()
         self.password_input.clear()
-        if login_password == pg.give_password():
+        if login_password == upg.give_password():
             mentor_name = f"{self.mentor_suffixes.currentText()} {self.mentor_name_input.text()}"
-            pg.set_username(mentor_name)
+            upg.set_username(mentor_name)
             self.create_db_button.setDisabled(False)
             self.open_db_button.setDisabled(False)
             self.add_database_action.setDisabled(False)

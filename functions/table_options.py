@@ -1,9 +1,9 @@
 import mysql.connector
-from working_data import password_giver as pg
+from working_data import username_password_giver as upg
 
 
 def make_connection():
-    connection = mysql.connector.connect(user='root', password=pg.give_password(), host='localhost', buffered=True)
+    connection = mysql.connector.connect(user='root', password=upg.give_password(), host='localhost', buffered=True)
     return connection
 
 

@@ -1,5 +1,5 @@
 import mysql.connector
-from working_data import password_giver as pg
+from working_data import username_password_giver as upg
 """
 Possible Errors:
 1. localhost login error 10061, MEANS SERVICE not running
@@ -10,7 +10,7 @@ Possible Errors:
 def make_connection():
     """This will make a connection without SELECTING a DATABASE
     This is used to Make, Show and Remove Database"""
-    connection = mysql.connector.connect(user='root', password=pg.give_password(), host='localhost', buffered=True)
+    connection = mysql.connector.connect(user='root', password=upg.give_password(), host='localhost', buffered=True)
     return connection
 
 

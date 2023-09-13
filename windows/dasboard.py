@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import QLabel, QGridLayout, QDialog, QTabWidget, QPushButto
 from functions import data_extractor as de
 from functions import table_options as tb_opt
 from functions import dashboard_options as dash_b_opt
-from working_data import password_giver as pg
+from working_data import username_password_giver as upg
 from windows.tabs.general_details import GeneralDetailTab
 from windows.tabs.personal_details import PersonalDetailTab
 from windows.tabs.pre_admission_details import PreAdmissionDetailTab
@@ -32,7 +32,7 @@ class TableWindow(QDialog):
         path_label = QLabel("Select xls/xlsx file to load data")
         get_path_button = QPushButton("Open")
         get_path_button.clicked.connect(self.get_file_path)
-        dashboard_label = QLabel(f"Mentor - {pg.get_username()}")
+        dashboard_label = QLabel(f"Mentor - {upg.get_username()}")
         close_window_button = QPushButton("Exit")
         close_window_button.clicked.connect(self.close_window)
         self.tab1 = GeneralDetailTab()

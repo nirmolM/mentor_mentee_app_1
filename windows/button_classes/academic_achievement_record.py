@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QDialog, QGridLayout, QLabel, QComboBox, QLineEdit, 
     QMessageBox, QFileDialog
 from functions import table_options as tb_opt
 from document_generators import academic_achievement_record_generator as doc_gen
-from working_data import password_giver as pg
+from working_data import username_password_giver as upg
 
 
 class AcademicAchievementsDashboard(QDialog):
@@ -194,7 +194,7 @@ class AcademicAchievementsDashboard(QDialog):
                                                  academic_achievement_details=academic_achievement_details)
         filepath = QFileDialog.getExistingDirectory(caption='Select Folder to save file')
         doc_gen.make_academic_achievement_record(academic_achievement_details, filepath,
-                                                 mentor_name=f"Mentor - {pg.get_username()}")
+                                                 mentor_name=f"Mentor - {upg.get_username()}")
         self.close()
         confirmation_widget = QMessageBox()
         confirmation_widget.setWindowTitle("Success")
@@ -231,7 +231,7 @@ class AcademicAchievementsDashboard(QDialog):
         }
         tb_opt.write_lor_loa_table(self.db_name, lor_loa_details=lor_loa_details)
         filepath = QFileDialog.getExistingDirectory(caption='Select Folder to save file')
-        doc_gen.make_lor_loa_record(lor_loa_details, filepath, mentor_name=f"Mentor - {pg.get_username()}")
+        doc_gen.make_lor_loa_record(lor_loa_details, filepath, mentor_name=f"Mentor - {upg.get_username()}")
         self.close()
         confirmation_widget = QMessageBox()
         confirmation_widget.setWindowTitle("Success")

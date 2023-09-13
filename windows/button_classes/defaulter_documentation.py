@@ -2,7 +2,7 @@ from PyQt6.QtCore import QDate
 from PyQt6.QtWidgets import QDialog, QGridLayout, QLabel, QPushButton, QComboBox, QMessageBox, QFileDialog, \
     QCalendarWidget
 from functions import table_options as tb_opt
-from working_data import password_giver as pg
+from working_data import username_password_giver as upg
 from document_generators import defaulter_document_generator as doc_gen
 
 
@@ -19,7 +19,7 @@ class DefaulterDocumentGenerator(QDialog):
         self.db_name = db_name
         self.setWindowTitle('Defaulters Document Generator')
         mentee_name_label = QLabel(f"Defaulter Documentation of {mentee_name}")
-        mentor_name_label = QLabel(f"Mentor - {pg.get_username()}")
+        mentor_name_label = QLabel(f"Mentor - {upg.get_username()}")
         attendance_label = QLabel("Select Attendance Label")
         self.attendance_box = QComboBox()
         attendance_percent = ['<75%', '<50%', '0%', 'Select Percentage']
@@ -67,8 +67,8 @@ class DefaulterDocumentGenerator(QDialog):
         }
         tb_opt.write_defaulters_table(self.db_name, defaulter_details=defaulter_details)
         filepath = QFileDialog.getExistingDirectory(caption='Select Folder to save file')
-        doc_gen.parent_letter_generator(defaulter_details, filepath, pg.get_username())
-        doc_gen.undertaking_student(defaulter_details, filepath, pg.get_username())
+        doc_gen.parent_letter_generator(defaulter_details, filepath, upg.get_username())
+        doc_gen.undertaking_student(defaulter_details, filepath, upg.get_username())
         self.close()
         confirmation_widget = QMessageBox()
         confirmation_widget.setWindowTitle("Success")

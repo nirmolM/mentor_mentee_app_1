@@ -2,7 +2,7 @@ from PyQt6.QtCore import QDate
 from PyQt6.QtWidgets import QDialog, QLabel, QLineEdit, QCalendarWidget, QPushButton, QVBoxLayout, QFileDialog, \
     QMessageBox
 from document_generators import meeting_attendance_generator as doc_gen
-from working_data import password_giver as pg
+from working_data import username_password_giver as upg
 
 
 class MeetingAttendanceWindow(QDialog):
@@ -12,7 +12,7 @@ class MeetingAttendanceWindow(QDialog):
         self.date = None
         self.db_name = db_name
         self.table_object = table_object
-        self.mentor_name = QLabel(f"Mentor - {pg.get_username()}")
+        self.mentor_name = QLabel(f"Mentor - {upg.get_username()}")
         agenda_label = QLabel('Enter Meeting Agenda')
         self.agenda_input = QLineEdit()
         date_label = QLabel('Set Meeting Date')

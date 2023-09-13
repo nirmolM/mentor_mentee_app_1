@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QDialog, QGridLayout, QLabel, QPushButton, QLineEdit, QMessageBox, QFileDialog
 from functions import table_options as tb_opt
-from working_data import password_giver as pg
+from working_data import username_password_giver as upg
 
 
 class SpecialMenteeAction(QDialog):
@@ -11,7 +11,7 @@ class SpecialMenteeAction(QDialog):
         self.setWindowTitle("Mentor-Mentee Issue and Special Action")
         self.db_name = db_name
         self.mentee_name = mentee_name
-        self.mentor_name = pg.get_username()
+        self.mentor_name = upg.get_username()
         mentor_name_label = QLabel(self.mentor_name)
         mentee_name_label = QLabel(f"Issue pertaining - {self.mentee_name}")
         issue_raised_label = QLabel("Issue Raised")
