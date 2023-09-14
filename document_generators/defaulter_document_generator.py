@@ -1,5 +1,5 @@
 from functions import document_options as doc_opt
-from working_data.year_semester_giver import give_year_and_semester as ysg
+from working_data import year_semester_giver as ysg
 from docx import Document
 from datetime import date
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
@@ -54,7 +54,7 @@ def undertaking_student(defaulter_details: dict, filepath: str, mentor_name: str
     roll_no_line = doc.add_paragraph()
     roll_no_line.add_run(f"Roll No: {defaulter_details['roll_no']}").bold = True
     semester_line = doc.add_paragraph()
-    semester_line.add_run(f"Semester: {ysg(defaulter_details['admitted_year'][1])}").bold = True
+    semester_line.add_run(f"Semester: {ysg.give_year_and_semester(defaulter_details['admitted_year'])[1]}").bold = True
     content_para1 = doc.add_paragraph("\n")
     content_para1.add_run(f"I, {defaulter_details['name']}, the undersigned, student of this college, am fully aware "
                           f"that I am required to attend classes on all the working days and due to any genuine "
