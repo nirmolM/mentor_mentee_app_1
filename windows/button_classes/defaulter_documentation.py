@@ -7,9 +7,11 @@ from document_generators import defaulter_document_generator as doc_gen
 
 
 class DefaulterDocumentGenerator(QDialog):
-    def __init__(self, db_name: str, mentee_name: str, father_name: str, address: str, roll_no: str, division: str):
+    def __init__(self, db_name: str, mentee_name: str, father_name: str, address: str, roll_no: str, division: str,
+                 admitted_year: str):
         super().__init__()
         self.date = None
+        self.admitted_year = admitted_year
         self.roll_no = roll_no
         self.division = division
         self.attendance_percentage = None
@@ -63,7 +65,8 @@ class DefaulterDocumentGenerator(QDialog):
             'address': self.address,
             'roll_no': self.roll_no,
             'division': self.division,
-            'date': self.date
+            'date': self.date,
+            'admitted_year': self.admitted_year
         }
         tb_opt.write_defaulters_table(self.db_name, defaulter_details=defaulter_details)
         filepath = QFileDialog.getExistingDirectory(caption='Select Folder to save file')

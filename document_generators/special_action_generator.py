@@ -1,7 +1,7 @@
 from functions import document_options as doc_opt
 from docx import Document
 from datetime import date
-from working_data import academic_year_giver as ayg
+from working_data import year_semester_giver as ysg
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
@@ -20,7 +20,7 @@ def make_special_action_sheet(issue_details: dict, filepath: str, mentor_name: s
         issue_table.cell(i, 0).merge(issue_table.cell(i, 3))
     academic_year_line = issue_table.rows[0].cells[0].paragraphs[0]
     academic_year_line.add_run("Academic Year: ").bold = True
-    academic_year_line.add_run(ayg.give_academic_year())
+    academic_year_line.add_run(ysg.give_academic_year())
     issue_table.cell(1, 0).merge(issue_table.cell(2, 0))
     mentee_details_paragraph = issue_table.rows[1].cells[0].paragraphs[0]
     mentee_details_paragraph.add_run("Mentee Details: ").bold = True

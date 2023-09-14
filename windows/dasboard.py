@@ -24,6 +24,7 @@ class TableWindow(QDialog):
         self.current_div, self.roll_no = None, None
         self.address, self.father_name = None, None
         self.mentee_name, self.path = None, None
+        self.admitted_year = None
         self.db_name = db_name
         self.setWindowTitle("Mentor - Mentee Dashboard")
         # self.showFullScreen()
@@ -181,6 +182,7 @@ class TableWindow(QDialog):
         self.address = self.tab2.table.item(row, 3).text()
         self.current_div = self.tab1.table.item(row, 7).text()
         self.roll_no = self.tab1.table.item(row, 8).text()
+        self.admitted_year = self.tab1.table(row, 3).text()
 
     def meeting_attendance(self):
         meeting_attendance_window = MeetingAttendanceWindow(self.tab1.table, self.db_name)
@@ -207,7 +209,7 @@ class TableWindow(QDialog):
     def defaulter_documentation(self):
         defaulter_documentation = DefaulterDocumentGenerator(self.db_name, self.mentee_name,
                                                              self.father_name, self.address, self.roll_no,
-                                                             self.current_div)
+                                                             self.current_div, self.admitted_year)
         defaulter_documentation.exec()
 
     def mentee_issue(self):

@@ -7,7 +7,7 @@ from functions import table_options as tb_opt
 import windows.dasboard as wd
 
 
-class MainWindow(QMainWindow):  # todo -> Add Icons
+class MainWindow(QMainWindow):  # todo -> Add Icons, make window full screen
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Mentor-Mentee Database System")
