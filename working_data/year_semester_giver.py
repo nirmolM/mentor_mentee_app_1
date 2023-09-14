@@ -7,35 +7,12 @@ def give_academic_year():
         in [7, 8, 9, 10, 11, 12] else (str(datetime.now().year - 1) + '-' + str((datetime.now().year - 2000)))
 
 
-def give_year_and_semester(admitted_ay: str):
+def give_year_and_semester(admitted_ay: str):  # todo -> $BUG$ -> This will not account for dropped students
     year_no = int(give_academic_year()[0:4]) - int(admitted_ay[0:4])
     current_month = datetime.now().month
-    match year_no:
-        case 0:
-            year_local = "FE"
-            if current_month in [7, 8, 9, 10, 11, 12]:
-                semester_local = 'I'
-            else:
-                semester_local = 'II'
-        case 1:
-            year_local = "SE"
-            if current_month in [7, 8, 9, 10, 11, 12]:
-                semester_local = 'III'
-            else:
-                semester_local = 'IV'
-        case 2:
-            year_local = "TE"
-            if current_month in [7, 8, 9, 10, 11, 12]:
-                semester_local = 'V'
-            else:
-                semester_local = 'VI'
-        case 3:
-            year_local = "BE"
-            if current_month in [7, 8, 9, 10, 11, 12]:
-                semester_local = 'VII'
-            else:
-                semester_local = 'VIII'
-        case _:
-            year_local = "Error Case"
-            semester_local = "Error Case"
+    year_local = ["FE", "SE", "TE", "BE"][year_no]
+    if current_month > 6:
+        semester_local = ["I", "III", "V", "VII"][year_no]
+    else:
+        semester_local = ["II", "IV", "VI", "VIII"][year_no]
     return [year_local, semester_local]
