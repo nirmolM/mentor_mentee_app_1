@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import QLabel, QWidget, QGridLayout, QPushButton, QMainWind
     QDialog
 from PyQt6.QtGui import QAction, QPixmap
 import working_data.username_password_giver as upg
+import working_data.year_semester_giver as ysg
 from functions import database_options as db_opt
 from functions import table_options as tb_opt
 import windows.dasboard as wd
@@ -11,6 +12,7 @@ class MainWindow(QMainWindow):  # todo -> Add Icons, make window full screen
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Mentor-Mentee Database System")
+        # self.showFullScreen()
         file_menu_item = self.menuBar().addMenu("&File")
         help_menu_item = self.menuBar().addMenu("&Help")
         self.add_database_action = QAction("Create Database", self)
@@ -33,6 +35,7 @@ class MainWindow(QMainWindow):  # todo -> Add Icons, make window full screen
         self.open_db_button = QPushButton("Open Existing Database")
         self.open_db_button.clicked.connect(self.open_database_menu)
         self.open_db_button.setDisabled(True)
+        academic_year_label = QLabel(f"Academic Year: {ysg.give_academic_year()}")
         image_space = QLabel(self)
         image = QPixmap('SAKEC.png')
         image_space.setPixmap(image)
@@ -66,14 +69,15 @@ class MainWindow(QMainWindow):  # todo -> Add Icons, make window full screen
         self.delete_button.clicked.connect(self.delete_database)
         self.layout.addWidget(image_space, 0, 0)
         self.layout.addWidget(title_label, 0, 1)
-        self.layout.addWidget(mentor_name_prompt, 1, 0, 1, 4)
-        self.layout.addWidget(self.mentor_suffixes, 2, 0)
-        self.layout.addWidget(self.mentor_name_input, 2, 1, 1, 3)
-        self.layout.addWidget(password_label, 3, 0, 1, 2)
-        self.layout.addWidget(self.password_input, 4, 0, 1, 4)
-        self.layout.addWidget(password_accept_button, 4, 5)
-        self.layout.addWidget(self.create_db_button, 5, 0, 1, 2)
-        self.layout.addWidget(self.open_db_button, 5, 2, 1, 2)
+        self.layout.addWidget(academic_year_label, 1, 0, 1, 4)
+        self.layout.addWidget(mentor_name_prompt, 2, 0, 1, 4)
+        self.layout.addWidget(self.mentor_suffixes, 3, 0)
+        self.layout.addWidget(self.mentor_name_input, 3, 1, 1, 3)
+        self.layout.addWidget(password_label, 4, 0, 1, 2)
+        self.layout.addWidget(self.password_input, 5, 0, 1, 4)
+        self.layout.addWidget(password_accept_button, 5, 5)
+        self.layout.addWidget(self.create_db_button, 6, 0, 1, 2)
+        self.layout.addWidget(self.open_db_button, 6, 2, 1, 2)
         self.centralWidget.setLayout(self.layout)
 
     def login(self):
