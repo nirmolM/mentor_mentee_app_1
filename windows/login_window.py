@@ -71,7 +71,7 @@ class MainWindow(QMainWindow):  # todo -> Add Icons
                                 If you encounter a bug, undesired output and/or a sudden crash then kindly note down,
                                 what exactly was that you were doing during the aforementioned bug encountered so that
                                 resolving the bug becomes easy<br>
-                                Kindly email it on nirmol.munvar@sakec.ac.in
+                                Kindly email it bug/crash info on nirmol.munvar@sakec.ac.in
                                 </p>
                             </body> 
                         </html>
