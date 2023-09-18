@@ -84,12 +84,12 @@ class TableWindow(QDialog):
         self.generate_defaulter_document_button.setDisabled(True)
         if not created_now:
             self.update_table_button.setDisabled(True)
-            layout.addWidget(self.load_data_button, 1, 3)
-            layout.addWidget(self.update_table_button, 1, 4)
-            layout.addWidget(all_mentee_action_label, 3, 0, 1, 5)
+            layout.addWidget(self.load_data_button, 1, 5)
+            layout.addWidget(self.update_table_button, 1, 6)
+            layout.addWidget(all_mentee_action_label, 3, 0, 1, 7)
             layout.addWidget(self.generate_attendance_pdf_button, 4, 0)
             layout.addWidget(self.generate_ptm_docs_button, 4, 1)
-            layout.addWidget(individual_mentee_action_label, 5, 0, 1, 5)
+            layout.addWidget(individual_mentee_action_label, 5, 0, 1, 7)
             layout.addWidget(self.generate_mentee_action_ticket, 6, 0)
             layout.addWidget(self.generate_leave_button, 6, 1)
             layout.addWidget(self.generate_academic_achievement_lor_loa_button, 6, 2)
@@ -98,11 +98,11 @@ class TableWindow(QDialog):
         else:
             self.write_table_button.setDisabled(True)
             layout.addWidget(self.write_table_button, 3, 0)
-            layout.addWidget(path_label, 1, 3)
-            layout.addWidget(get_path_button, 1, 4)
+            layout.addWidget(path_label, 1, 5)
+            layout.addWidget(get_path_button, 1, 6)
         layout.addWidget(dashboard_label, 0, 0)
-        layout.addWidget(close_window_button, 0, 4)
-        layout.addWidget(tab_widget, 2, 0, 1, 5)
+        layout.addWidget(close_window_button, 0, 6)
+        layout.addWidget(tab_widget, 2, 0, 1, 7)
         self.setLayout(layout)
 
     def close_window(self):

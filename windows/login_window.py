@@ -1,5 +1,6 @@
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QLabel, QWidget, QGridLayout, QPushButton, QMainWindow, QLineEdit, QMessageBox, QComboBox, \
-    QDialog
+    QDialog, QHBoxLayout, QVBoxLayout
 from PyQt6.QtGui import QAction, QPixmap
 import working_data.username_password_giver as upg
 import working_data.year_semester_giver as ysg
@@ -8,9 +9,11 @@ from functions import table_options as tb_opt
 import windows.dasboard as wd
 
 
-class MainWindow(QMainWindow):  # todo -> Add Icons, make window full screen
+class MainWindow(QMainWindow):  # todo -> Add Icons
     def __init__(self):
         super().__init__()
+        self.create_database_widget = None
+        self.database_name_input = None
         self.setWindowTitle("Mentor-Mentee Database System")
         # self.showFullScreen()
         file_menu_item = self.menuBar().addMenu("&File")
@@ -28,7 +31,11 @@ class MainWindow(QMainWindow):  # todo -> Add Icons, make window full screen
         about_action.triggered.connect(self.about)
         self.centralWidget = QWidget()
         self.setCentralWidget(self.centralWidget)
-        self.layout = QGridLayout()
+        layout_main = QHBoxLayout()
+        layout_col1 = QVBoxLayout()
+        layout_col2 = QVBoxLayout()
+        layout_main.addLayout(layout_col1, 2)
+        layout_main.addLayout(layout_col2, 1)
         self.create_db_button = QPushButton("Create New Database")
         self.create_db_button.clicked.connect(self.create_database_menu)
         self.create_db_button.setDisabled(True)
@@ -40,6 +47,36 @@ class MainWindow(QMainWindow):  # todo -> Add Icons, make window full screen
         image = QPixmap('SAKEC.png')
         image_space.setPixmap(image)
         title_label = QLabel("Mentor Mentee Automation App")
+        about_content = """ 
+                        <html> 
+                            <body> 
+                                <p>
+                                <b>Welcome to the Mentor Mentee Automation App.</b><br>Please note that the app is still
+                                 under development and will be finalized soon.<br>This app aims to make the 
+                                 documentation aspect of mentor file just a matter of clicks where all documents will be 
+                                 automatically generated.<br>This also aims to make a permanent database for mentee data 
+                                 which can be easily fetched or migrated from other files and can be loaded via excel 
+                                 sheet or google sheets.<br>Features of this app include:
+                                <ul>
+                                <li> Creating, Updating and Deleting Databases </li>
+                                <li> One-time database creation and data entries in just few clicks </li>
+                                <li> Generating all documents required in few clicks </li>
+                                <li> Actions like mentee special action, leaves, academic achievements, etc all in one 
+                                place </li>
+                                <li> All data is tabulated and saved in database tables which can be easily fetched for 
+                                individual mentees and all mentees together </li>
+                                </ul>
+                                </p>
+                                <p><b>Special Request to user: </b><br>
+                                If you encounter a bug, undesired output and/or a sudden crash then kindly note down,
+                                what exactly was that you were doing during the aforementioned bug encountered so that
+                                resolving the bug becomes easy<br>
+                                Kindly email it on nirmol.munvar@sakec.ac.in
+                                </p>
+                            </body> 
+                        </html>
+                        """
+        about_label = QLabel(about_content)
         password_label = QLabel("Please Enter Password")
         self.password_input = QLineEdit()
         self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
@@ -50,35 +87,35 @@ class MainWindow(QMainWindow):  # todo -> Add Icons, make window full screen
         self.mentor_suffixes = QComboBox()
         self.mentor_suffixes.addItems(suffixes)
         self.mentor_name_input = QLineEdit()
-        create_database_message = \
-            "Enter Name for new Database\n" \
-            "Ideal Database name should be\n " \
-            "FE_<Division>_<Batch>_<Academic Year Admitted>\n" \
-            "Example: FE_11_A_2023_24"
-        self.create_database_label = QLabel(create_database_message)
-        self.database_name_input = QLineEdit()
-        self.database_name_input.setPlaceholderText("Example: FE_11_A_2023_24")
-        self.create_button = QPushButton("Create")
-        self.create_button.clicked.connect(self.create_database)
         self.select_database_label = QLabel("Select Database to Open")
         self.database_box = QComboBox()
         self.database_box.addItems(db_opt.show_databases())
-        self.select_button = QPushButton("Open")
-        self.select_button.clicked.connect(self.open_database)
-        self.delete_button = QPushButton("Delete")
-        self.delete_button.clicked.connect(self.delete_database)
-        self.layout.addWidget(image_space, 0, 0)
-        self.layout.addWidget(title_label, 0, 1)
-        self.layout.addWidget(academic_year_label, 1, 0, 1, 4)
-        self.layout.addWidget(mentor_name_prompt, 2, 0, 1, 4)
-        self.layout.addWidget(self.mentor_suffixes, 3, 0)
-        self.layout.addWidget(self.mentor_name_input, 3, 1, 1, 3)
-        self.layout.addWidget(password_label, 4, 0, 1, 2)
-        self.layout.addWidget(self.password_input, 5, 0, 1, 4)
-        self.layout.addWidget(password_accept_button, 5, 5)
-        self.layout.addWidget(self.create_db_button, 6, 0, 1, 2)
-        self.layout.addWidget(self.open_db_button, 6, 2, 1, 2)
-        self.centralWidget.setLayout(self.layout)
+        close_window_button = QPushButton("Exit")
+        close_window_button.clicked.connect(self.close_window)
+        layout_col1.addStretch()
+        layout_col1.addWidget(image_space, alignment=Qt.AlignmentFlag.AlignCenter)
+        layout_col1.addWidget(title_label, alignment=Qt.AlignmentFlag.AlignCenter)
+        layout_col1.addWidget(academic_year_label, alignment=Qt.AlignmentFlag.AlignCenter)
+        layout_col1.addWidget(about_label, alignment=Qt.AlignmentFlag.AlignJustify)
+        layout_col1.addWidget(close_window_button, alignment=Qt.AlignmentFlag.AlignCenter)
+        layout_col1.addStretch()
+        layout_col2.addStretch()
+        layout_col2.setSpacing(20)
+        layout_col2.addWidget(mentor_name_prompt, alignment=Qt.AlignmentFlag.AlignCenter)
+        layout_col2_row_2 = QHBoxLayout()
+        layout_col2_row_2.setSpacing(5)
+        layout_col2_row_2.addWidget(self.mentor_suffixes)
+        layout_col2_row_2.addWidget(self.mentor_name_input)
+        layout_col2.addLayout(layout_col2_row_2)
+        layout_col2.addWidget(password_label, alignment=Qt.AlignmentFlag.AlignCenter)
+        layout_col2.addWidget(self.password_input)
+        layout_col2.addWidget(password_accept_button)
+        layout_col2_row_5 = QHBoxLayout()
+        layout_col2_row_5.addWidget(self.create_db_button)
+        layout_col2_row_5.addWidget(self.open_db_button)
+        layout_col2.addLayout(layout_col2_row_5)
+        layout_col2.addStretch()
+        self.centralWidget.setLayout(layout_main)
 
     def login(self):
         login_password = self.password_input.text()
@@ -100,13 +137,42 @@ class MainWindow(QMainWindow):  # todo -> Add Icons, make window full screen
             if message == QMessageBox.StandardButton.Ok:
                 incorrect_password_prompt_widget.close()
 
+    def close_window(self):
+        confirmation_widget = QMessageBox()
+        confirmation_widget.setWindowTitle("Quit App?")
+        confirmation_widget.setText("Are You Sure you want to quit?")
+        confirmation_widget.setIcon(QMessageBox.Icon.Question)
+        confirmation_widget.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        message = confirmation_widget.exec()
+        if message == QMessageBox.StandardButton.Yes:
+            self.close()
+        else:
+            confirmation_widget.close()
+
     def create_database_menu(self):
         self.open_db_button.setDisabled(True)
-        self.layout.addWidget(self.create_database_label, 6, 0, 1, 2)
-        self.layout.addWidget(self.database_name_input, 7, 0, 1, 2)
-        self.layout.addWidget(self.create_button, 8, 0)
+        self.create_db_button.setDisabled(True)
+        self.create_database_widget = QDialog()
+        create_database_widget_layout = QVBoxLayout()
+        self.create_database_widget.setWindowTitle("Create Database")
+        create_database_message = \
+            "Enter Name for new Database\n" \
+            "Ideal Database name should be\n " \
+            "FE_<Division>_<Batch>_<Academic Year Admitted>\n" \
+            "Example: FE_11_A_2023_24"
+        create_database_label = QLabel(create_database_message)
+        self.database_name_input = QLineEdit()
+        self.database_name_input.setPlaceholderText("Example: FE_11_A_2023_24")
+        create_database_widget_layout.addWidget(create_database_label)
+        create_database_widget_layout.addWidget(self.database_name_input)
+        create_button = QPushButton("Create")
+        create_button.clicked.connect(self.create_database)
+        create_database_widget_layout.addWidget(create_button)
+        self.create_database_widget.setLayout(create_database_widget_layout)
+        self.create_database_widget.exec()
 
     def create_database(self):
+        self.create_database_widget.close()
         db_name = self.database_name_input.text()
         db_opt.create_database(db_name)
         tb_opt.create_table(db_name)
@@ -116,10 +182,24 @@ class MainWindow(QMainWindow):  # todo -> Add Icons, make window full screen
 
     def open_database_menu(self):
         self.create_db_button.setDisabled(True)
-        self.layout.addWidget(self.select_database_label, 6, 2)
-        self.layout.addWidget(self.database_box, 7, 2, 1, 2)
-        self.layout.addWidget(self.select_button, 8, 2)
-        self.layout.addWidget(self.delete_button, 8, 3)
+        self.open_db_button.setDisabled(True)
+        open_database_widget = QDialog()
+        open_database_widget_layout = QVBoxLayout()
+        h_layout = QHBoxLayout()
+        select_button = QPushButton("Open")
+        select_button.clicked.connect(self.open_database)
+        delete_button = QPushButton("Delete")
+        delete_button.clicked.connect(self.delete_database)
+        h_layout.addWidget(select_button)
+        h_layout.addWidget(delete_button)
+        select_database_label = QLabel("Select Database to Open")
+        self.database_box = QComboBox()
+        self.database_box.addItems(db_opt.show_databases())
+        open_database_widget_layout.addWidget(select_database_label)
+        open_database_widget_layout.addWidget(self.database_box)
+        open_database_widget_layout.addLayout(h_layout)
+        open_database_widget.setLayout(open_database_widget_layout)
+        open_database_widget.exec()
 
     def open_database(self):
         db_name = str(self.database_box.currentText())
