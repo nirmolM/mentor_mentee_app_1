@@ -16,6 +16,7 @@ from windows.button_classes.ptm_dashboard import PTMDashboard
 from windows.button_classes.academic_achievement_record import AcademicAchievementsDashboard
 from windows.button_classes.defaulter_documentation import DefaulterDocumentGenerator
 from windows.button_classes.special_action import SpecialMenteeAction
+from windows.button_classes.college_activities_record import CollegeActivityRecordGenerator
 
 
 class TableWindow(QDialog):
@@ -27,7 +28,7 @@ class TableWindow(QDialog):
         self.admitted_year = None
         self.db_name = db_name
         self.setWindowTitle("Mentor - Mentee Dashboard")
-        self.showFullScreen()
+        # self.showFullScreen()
         self.setMinimumSize(1280, 720)
         layout = QGridLayout()
         path_label = QLabel("Select xls/xlsx file to load data")
@@ -82,6 +83,12 @@ class TableWindow(QDialog):
         self.generate_defaulter_document_button = QPushButton("Generate Defaulter Document")
         self.generate_defaulter_document_button.clicked.connect(self.defaulter_documentation)
         self.generate_defaulter_document_button.setDisabled(True)
+        self.generate_mentee_college_activities_button = QPushButton("Update Mentee College Activities")
+        self.generate_mentee_college_activities_button.clicked.connect(self.college_activities_documentation)
+        self.generate_mentee_college_activities_button.setDisabled(True)
+        self.generate_academic_activity_record = QPushButton("Generate Academic Activity Record")
+        self.generate_academic_activity_record.clicked.connect(self.academic_activity_record)
+        self.generate_academic_activity_record.setDisabled(True)
         if not created_now:
             self.update_table_button.setDisabled(True)
             layout.addWidget(self.load_data_button, 1, 5)
@@ -94,7 +101,9 @@ class TableWindow(QDialog):
             layout.addWidget(self.generate_leave_button, 6, 1)
             layout.addWidget(self.generate_academic_achievement_lor_loa_button, 6, 2)
             layout.addWidget(self.generate_defaulter_document_button, 6, 3)
-            layout.addWidget(self.generate_student_details_button, 6, 4)
+            layout.addWidget(self.generate_mentee_college_activities_button, 6, 4)
+            layout.addWidget(self.generate_academic_activity_record, 6, 5)
+            layout.addWidget(self.generate_student_details_button, 6, 6)
         else:
             self.write_table_button.setDisabled(True)
             layout.addWidget(self.write_table_button, 3, 0)
@@ -177,12 +186,14 @@ class TableWindow(QDialog):
         self.generate_academic_achievement_lor_loa_button.setDisabled(False)
         self.generate_defaulter_document_button.setDisabled(False)
         self.generate_mentee_action_ticket.setDisabled(False)
+        self.generate_mentee_college_activities_button.setDisabled(False)
+        self.generate_academic_activity_record.setDisabled(False)
         self.mentee_name = self.tab1.table.item(row, 2).text()
         self.father_name = self.tab2.table.item(row, 9).text()
         self.address = self.tab2.table.item(row, 3).text()
         self.current_div = self.tab1.table.item(row, 7).text()
         self.roll_no = self.tab1.table.item(row, 8).text()
-        self.admitted_year = self.tab1.table(row, 3).text()
+        self.admitted_year = self.tab1.table.item(row, 3).text()
 
     def meeting_attendance(self):
         meeting_attendance_window = MeetingAttendanceWindow(self.tab1.table, self.db_name)
@@ -216,3 +227,10 @@ class TableWindow(QDialog):
     def mentee_issue(self):
         mentee_issue_ticket = SpecialMenteeAction(self.db_name, self.mentee_name, self.current_div, self.roll_no)
         mentee_issue_ticket.exec()
+
+    def college_activities_documentation(self):
+        college_activity_recorder = CollegeActivityRecordGenerator(self.db_name, self.mentee_name)
+        college_activity_recorder.exec()
+
+    def academic_activity_record(self):
+        pass

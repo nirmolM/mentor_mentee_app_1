@@ -12,6 +12,7 @@ import windows.dasboard as wd
 class MainWindow(QMainWindow):  # todo -> Add Icons
     def __init__(self):
         super().__init__()
+        self.open_database_widget = None
         self.create_database_widget = None
         self.database_name_input = None
         self.setWindowTitle("Mentor-Mentee Database System")
@@ -186,7 +187,7 @@ class MainWindow(QMainWindow):  # todo -> Add Icons
     def open_database_menu(self):
         self.create_db_button.setDisabled(True)
         self.open_db_button.setDisabled(True)
-        open_database_widget = QDialog()
+        self.open_database_widget = QDialog()
         open_database_widget_layout = QVBoxLayout()
         h_layout = QHBoxLayout()
         select_button = QPushButton("Open")
@@ -201,10 +202,11 @@ class MainWindow(QMainWindow):  # todo -> Add Icons
         open_database_widget_layout.addWidget(select_database_label)
         open_database_widget_layout.addWidget(self.database_box)
         open_database_widget_layout.addLayout(h_layout)
-        open_database_widget.setLayout(open_database_widget_layout)
-        open_database_widget.exec()
+        self.open_database_widget.setLayout(open_database_widget_layout)
+        self.open_database_widget.exec()
 
     def open_database(self):
+        self.open_database_widget.close()
         db_name = str(self.database_box.currentText())
         self.close()
         table_window = wd.TableWindow(db_name, False)

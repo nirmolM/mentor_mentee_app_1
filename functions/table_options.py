@@ -89,6 +89,12 @@ def create_table(database_name: str):
                                                   'action varchar(255), outcome varchar(255), ' \
                                                   'FOREIGN KEY (reg_id) REFERENCES mentee_details(reg_id))'
     cursor_local.execute(create_special_action_details_table_command)
+    create_college_activity_table_command = 'CREATE TABLE college_activity (activity_id SERIAL PRIMARY KEY, ' \
+                                            'reg_id char(5), activity_type varchar(50), role varchar(50),' \
+                                            'role_description varchar(100), start_date DATE, end_date DATE, ' \
+                                            'certificate_given BOOLEAN, ' \
+                                            'FOREIGN KEY (reg_id) REFERENCES mentee_details(reg_id))'
+    cursor_local.execute(create_college_activity_table_command)
     cursor_local.close()
     connection_local.close()
 
@@ -228,3 +234,18 @@ def fetch_special_action_details(database_name: str, mentee_name: str):
     special_action_query = "SELECT md.Name, sa.issue, sa.description, sa.action, sa.outcome " \
                        "FROM mentee_details md JOIN special_action sa ON md.reg_id = sa.reg_id WHERE md.Name = %s"
     return generalised_fetch_function(database_name, mentee_name, special_action_query)
+
+
+def write_college_activity_table(database_name: str, activity_details: dict):
+    header_str = 'reg_id, activity_type, role, role_description, start_date, end_date, certificate_given'
+    values = (give_reg_id(database_name, activity_details['name']),
+              activity_details['activity_type'], activity_details['role'], activity_details['description'],
+              activity_details['start_date'], activity_details['end_date'], activity_details['certificate'])
+    generalised_write_function(database_name, 'college_activity', header_str, values)
+
+
+def fetch_college_activity_details(database_name: str, mentee_name: str):
+    college_activity_query = "SELECT md.Name, ca.activity_type, ca.role, ca.role_description, ca.start_date, " \
+                             "ca.end_date, ca.certificate_given FROM mentee_details md JOIN college_activity ca " \
+                             "ON md.reg_id = ca.reg_id WHERE md.Name = %s"
+    return generalised_fetch_function(database_name, mentee_name, college_activity_query)

@@ -1,5 +1,4 @@
 # todo -> Implement outlook email functionality
-# todo -> Implement college activities table (cells, volunteering for events, fests etc)
 # todo -> Implement college co-curricular activities (Internships, Courses, Copyrights) - Link with Mentee Action Plan
 import sys
 from PyQt6.QtWidgets import QApplication
