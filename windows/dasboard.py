@@ -205,6 +205,7 @@ class TableWindow(QDialog):
         print(tb_opt.fetch_lor_loa_details(self.db_name, self.mentee_name))
         print(tb_opt.fetch_defaulters_details(self.db_name, self.mentee_name))
         print(tb_opt.fetch_special_action_details(self.db_name, self.mentee_name))
+        print(tb_opt.fetch_college_activity_details(self.db_name, self.mentee_name))
 
     def leave_calculator(self):
         leave_calculator_window = LeaveCalculatorDashboard(self.db_name, self.mentee_name)
