@@ -52,6 +52,7 @@ def create_table(database_name: str):
                                 '10th_percent varchar(5), 10th_institute varchar(50), 10th_board varchar(10), ' \
                                 '12th_percent varchar(5), 12th_institute varchar(50), 12th_board varchar(10), ' \
                                 'CET_marks varchar(3), JEE_marks varchar(3), Diploma_percent varchar(4), ' \
+                                'Diploma_institute varchar(50), Diploma_board varchar(10), ' \
                                 'sem1ptr varchar(4), sem2ptr varchar(4), sem3ptr varchar(4), sem4ptr varchar(4),' \
                                 'sem5ptr varchar(4), sem6ptr varchar(4), sem7ptr varchar(4), sem8ptr varchar(4),' \
                                 'courses_done varchar(20), Internship_status varchar(20), ' \
@@ -95,6 +96,12 @@ def create_table(database_name: str):
                                             'certificate_given BOOLEAN, ' \
                                             'FOREIGN KEY (reg_id) REFERENCES mentee_details(reg_id))'
     cursor_local.execute(create_college_activity_table_command)
+    create_cc_activity_command = 'CREATE TABLE co_curricular_activity (cc_activity_id SERIAL PRIMARY KEY, ' \
+                                 'reg_id char(5), cc_activity_type varchar(50), particulars varchar(50),' \
+                                 'description varchar(100), start_date DATE, end_date DATE, ' \
+                                 'certificate_given BOOLEAN, ' \
+                                 'FOREIGN KEY (reg_id) REFERENCES mentee_details(reg_id))'
+    cursor_local.execute(create_cc_activity_command)
     cursor_local.close()
     connection_local.close()
 
@@ -112,7 +119,7 @@ def write_data_in_table(database_name: str, rows: list):
                  "Guardian_name, guardian_mobile, guardian_email, " \
                  "10th_percent, 10th_institute, 10th_board, " \
                  "12th_percent, 12th_institute, 12th_board, " \
-                 "CET_marks, JEE_marks, Diploma_percent, " \
+                 "CET_marks, JEE_marks, Diploma_percent, Diploma_institute, Diploma_board, " \
                  "sem1ptr, sem2ptr, sem3ptr, sem4ptr, sem5ptr, sem6ptr, sem7ptr, sem8ptr, " \
                  "courses_done, Internship_status, publication_details, " \
                  "copyright_details, products_developed, professional_bodies, project_competitions, " \
@@ -140,7 +147,7 @@ def update_data_in_table(database_name: str, rows: list):
                  "Guardian_name, guardian_mobile, guardian_email, " \
                  "10th_percent, 10th_institute, 10th_board, " \
                  "12th_percent, 12th_institute, 12th_board, " \
-                 "CET_marks, JEE_marks, Diploma_percent, " \
+                 "CET_marks, JEE_marks, Diploma_percent, Diploma_institute, Diploma_board, " \
                  "sem1ptr, sem2ptr, sem3ptr, sem4ptr, sem5ptr, sem6ptr, sem7ptr, sem8ptr, " \
                  "courses_done, Internship_status, publication_details, " \
                  "copyright_details, products_developed, professional_bodies, project_competitions, " \
@@ -232,7 +239,7 @@ def write_special_action_table(database_name: str, issue_details: dict):
 
 def fetch_special_action_details(database_name: str, mentee_name: str):
     special_action_query = "SELECT md.Name, sa.issue, sa.description, sa.action, sa.outcome " \
-                       "FROM mentee_details md JOIN special_action sa ON md.reg_id = sa.reg_id WHERE md.Name = %s"
+                           "FROM mentee_details md JOIN special_action sa ON md.reg_id = sa.reg_id WHERE md.Name = %s"
     return generalised_fetch_function(database_name, mentee_name, special_action_query)
 
 
@@ -249,3 +256,19 @@ def fetch_college_activity_details(database_name: str, mentee_name: str):
                              "ca.end_date, ca.certificate_given FROM mentee_details md JOIN college_activity ca " \
                              "ON md.reg_id = ca.reg_id WHERE md.Name = %s"
     return generalised_fetch_function(database_name, mentee_name, college_activity_query)
+
+
+def write_co_curricular_activity_table(database_name: str, cc_activity_details: dict):
+    header_str = 'reg_id, cc_activity_type, particulars, description, start_date, end_date, certificate_given'
+    values = (give_reg_id(database_name, cc_activity_details['name']),
+              cc_activity_details['cc_activity_type'], cc_activity_details['particulars'],
+              cc_activity_details['description'], cc_activity_details['start_date'], cc_activity_details['end_date'],
+              cc_activity_details['certificate'])
+    generalised_write_function(database_name, 'co_curricular_activity', header_str, values)
+
+
+def fetch_co_curricular_activity_details(database_name: str, mentee_name: str):
+    cc_activity_query = 'SELECT md.Name, cc.cc_activity_type, cc.particulars, cc.description, cc.start_date, ' \
+                        'cc.end_date, cc.certificate_given FROM mentee_details md JOIN co_curricular_activity cc ' \
+                        'ON md.reg_id = cc.reg_id WHERE md.Name = %s'
+    return generalised_fetch_function(database_name, mentee_name, cc_activity_query)

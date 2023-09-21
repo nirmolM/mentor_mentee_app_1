@@ -5,19 +5,19 @@ from docx.shared import Pt
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT, WD_LINE_SPACING
 
 
-def make_college_activity_record(activity_details: dict, filepath: str, mentor_name: str):
+def make_cc_activity_record(cc_activity_details: dict, filepath: str, mentor_name: str):
     today = date.today()
     doc = Document()
     doc_opt.make_header_for_doc(doc)
-    doc_opt.make_heading_for_doc(doc, 'Activity Record', mentor_name, today.strftime("%B %d, %Y"))
+    doc_opt.make_heading_for_doc(doc, 'Co-Curricular Activity Record', mentor_name, today.strftime("%B %d, %Y"))
     activity_paragraph = doc.add_paragraph("\n")
-    activity_paragraph.add_run("\nActivity Record for ")
-    activity_paragraph.add_run(f"{activity_details['name']}").bold = True
+    activity_paragraph.add_run("\nCo-Curricular Activity Record for ")
+    activity_paragraph.add_run(f"{cc_activity_details['name']}").bold = True
     activity_paragraph.add_run(": ")
     activity_table = doc.add_table(rows=4, cols=2)
-    activity_table_headers = ('Activity Type', 'Role', 'Day of Event', 'End Day of Event')
-    activity_table_details = (activity_details['activity_type'], activity_details['role'],
-                              activity_details['start_date'], activity_details['end_date'])
+    activity_table_headers = ('Co-Curricular Activity Type', 'Particulars (Name)', 'Day of Event', 'End Day of Event')
+    activity_table_details = (cc_activity_details['cc_activity_type'], cc_activity_details['particulars'],
+                              cc_activity_details['start_date'], cc_activity_details['end_date'])
     for i in range(4):
         col = activity_table.rows[i]
         col.cells[0].text = activity_table_headers[i]
@@ -33,8 +33,9 @@ def make_college_activity_record(activity_details: dict, filepath: str, mentor_n
     description_line = doc.add_paragraph("\n")
     description_line.add_run("Description: ").bold = True
     description_content = doc.add_paragraph("\n")
-    description_content.add_run(activity_details['description'])
+    description_content.add_run(cc_activity_details['description'])
     description_content.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
     doc_opt.add_signature_line(doc, mentor_name, True, '', False, False)
     doc_opt.line_space_setter(doc)
-    doc.save(f"{filepath}/{activity_details['name']} Activity Record {today.strftime('%B %d, %Y')}.docx")
+    doc.save(f"{filepath}/{cc_activity_details['name']} Co-Curricular Activity Record "
+             f"{today.strftime('%B %d, %Y')}.docx")

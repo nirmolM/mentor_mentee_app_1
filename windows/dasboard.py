@@ -171,7 +171,7 @@ class TableWindow(QDialog):
         self.generate_ptm_docs_button.setDisabled(False)
 
     def table_write_function_calls(self, rows: list):
-        ranges = [(rows, None, None), (rows, 9, 23), (rows, 23, 32), (rows, 32, 40), (rows, 40, 47), (rows, 47, 50)]
+        ranges = [(rows, None, None), (rows, 9, 23), (rows, 23, 32), (rows, 34, 42), (rows, 42, 49), (rows, 49, 52)]
 
         def write_to_table_wrapper(args):
             table, (rows_local, start, end) = args

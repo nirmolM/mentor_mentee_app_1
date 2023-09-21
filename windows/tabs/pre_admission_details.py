@@ -6,11 +6,12 @@ class PreAdmissionDetailTab(QWidget):
         super().__init__()
         self.layout = QGridLayout()
         self.table = QTableWidget()
-        self.table.setColumnCount(10)
+        self.table.setColumnCount(12)
         table_header = ("Name",
                         "10th %", "10th Institute", "10th Board",
                         "12th %", "12th Institute", "12th Board",
-                        "CET Score", "JEE Score", "Diploma %")
+                        "CET Score", "JEE Score",
+                        "Diploma %", "Diploma Institute", "Diploma Board")
         self.table.setHorizontalHeaderLabels(table_header)
         self.table.verticalHeader().setVisible(False)
         self.layout.addWidget(self.table, 0, 0, 1, 3)
