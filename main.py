@@ -1,5 +1,5 @@
 # todo -> Implement outlook email functionality
-# todo -> Implement college co-curricular activities (Internships, Courses, Copyrights) - Link with Mentee Action Plan
+# todo -> Make the student detail window
 import sys
 from PyQt6.QtWidgets import QApplication
 import windows.login_window
