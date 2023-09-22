@@ -8,8 +8,8 @@ from windows.tabs.general_details import GeneralDetailTab
 from windows.tabs.personal_details import PersonalDetailTab
 from windows.tabs.pre_admission_details import PreAdmissionDetailTab
 from windows.tabs.academic_details import AcademicDetailTab
-from windows.tabs.outcome_details import OutcomeDetailTab
 from windows.tabs.college_activities_details import CollegeActivityDetailTab
+from windows.tabs.outcome_details import OutcomeDetailTab
 from windows.button_classes.meeting_attendance import MeetingAttendanceWindow
 from windows.button_classes.leave_calculator import LeaveCalculatorDashboard
 from windows.button_classes.ptm_dashboard import PTMDashboard
