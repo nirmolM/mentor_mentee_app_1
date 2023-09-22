@@ -19,6 +19,7 @@ from windows.button_classes.special_action import SpecialMenteeAction
 from windows.button_classes.college_activities_record import CollegeActivityRecordGenerator
 from windows.button_classes.co_curricular_activities_record import CoCurricularActivityRecord
 
+
 class TableWindow(QDialog):
     def __init__(self, db_name: str, created_now: bool):
         super().__init__()
