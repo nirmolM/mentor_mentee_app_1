@@ -17,7 +17,7 @@ from windows.button_classes.academic_achievement_record import AcademicAchieveme
 from windows.button_classes.defaulter_documentation import DefaulterDocumentGenerator
 from windows.button_classes.special_action import SpecialMenteeAction
 from windows.button_classes.college_activities_record import CollegeActivityRecordGenerator
-
+from windows.button_classes.co_curricular_activities_record import CoCurricularActivityRecord
 
 class TableWindow(QDialog):
     def __init__(self, db_name: str, created_now: bool):
@@ -235,4 +235,5 @@ class TableWindow(QDialog):
         college_activity_recorder.exec()
 
     def academic_activity_record(self):
-        pass
+        academic_activity_recorder = CoCurricularActivityRecord(self.db_name, self.mentee_name)
+        academic_activity_recorder.exec()
