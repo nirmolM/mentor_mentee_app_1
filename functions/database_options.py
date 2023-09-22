@@ -1,10 +1,7 @@
+import win32serviceutil
+import win32service
 import mysql.connector
 from working_data import username_password_giver as upg
-"""
-Possible Errors:
-1. localhost login error 10061, MEANS SERVICE not running
--> To remove error, go to start, search for services, search for MySQL and then enable it, or run it
-"""
 
 
 def make_connection():
@@ -16,6 +13,11 @@ def make_connection():
 
 def show_databases():
     """This will show Existing databases RELEVANT to the APP"""
+    service_status = win32serviceutil.QueryServiceStatus("MySQL81")
+    if service_status[1] == win32service.SERVICE_RUNNING:
+        pass
+    else:
+        win32serviceutil.StartService("MySQL81")
     connection_local = make_connection()
     cursor_local = connection_local.cursor()
     cursor_local.execute("SHOW DATABASES")

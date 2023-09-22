@@ -171,6 +171,16 @@ def get_data_from_database(database_name: str):
     return result
 
 
+def get_data_for_singular_mentee(database_name: str, mentee_name: str):
+    connection_local = make_connection()
+    cursor_local = connection_local.cursor()
+    cursor_local.execute(f"USE {database_name}")
+    specific_name_query = "SELECT * FROM mentee_details WHERE Name = %s"
+    cursor_local.execute(specific_name_query, (mentee_name,))
+    result = cursor_local.fetchall()
+    return result
+
+
 def write_leave_table(database_name: str, leave_details: dict):
     header_str = 'reg_id, leave_date_start, leave_date_end, leave_duration, reason, description, document_given'
     values = (give_reg_id(database_name, leave_details['name']), leave_details['start_date'], leave_details['end_date'],

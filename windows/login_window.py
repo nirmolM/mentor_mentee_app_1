@@ -6,17 +6,18 @@ import working_data.username_password_giver as upg
 import working_data.year_semester_giver as ysg
 from functions import database_options as db_opt
 from functions import table_options as tb_opt
-import windows.dasboard as wd
+import windows.dashboard as wd
 
 
 class MainWindow(QMainWindow):  # todo -> Add Icons
     def __init__(self):
         super().__init__()
+        self.database_box = None
         self.open_database_widget = None
         self.create_database_widget = None
         self.database_name_input = None
         self.setWindowTitle("Mentor-Mentee Database System")
-        self.showFullScreen()
+        # self.showFullScreen()
         file_menu_item = self.menuBar().addMenu("&File")
         help_menu_item = self.menuBar().addMenu("&Help")
         self.add_database_action = QAction("Create Database", self)
@@ -91,9 +92,6 @@ class MainWindow(QMainWindow):  # todo -> Add Icons
         self.mentor_suffixes = QComboBox()
         self.mentor_suffixes.addItems(suffixes)
         self.mentor_name_input = QLineEdit()
-        self.select_database_label = QLabel("Select Database to Open")
-        self.database_box = QComboBox()
-        self.database_box.addItems(db_opt.show_databases())
         close_window_button = QPushButton("Exit")
         close_window_button.clicked.connect(self.close_window)
         layout_col1.addStretch()
