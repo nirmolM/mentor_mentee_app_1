@@ -217,7 +217,7 @@ class MainWindow(QMainWindow):  # todo -> Add Icons
         dialog = DeleteDatabaseDialog(str(self.database_box.currentText()))
         dialog.exec()
         self.database_box.clear()
-        self.database_box.addItems(db_opt.show_databases())
+        self.database_box.addItems(db_opt.show_databases(first_time=False))
 
 
 class DeleteDatabaseDialog(QDialog):

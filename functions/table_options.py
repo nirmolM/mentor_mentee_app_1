@@ -177,7 +177,7 @@ def get_data_for_singular_mentee(database_name: str, mentee_name: str):
     cursor_local.execute(f"USE {database_name}")
     specific_name_query = "SELECT * FROM mentee_details WHERE Name = %s"
     cursor_local.execute(specific_name_query, (mentee_name,))
-    result = cursor_local.fetchall()
+    result = cursor_local.fetchall()[0]
     return result
 
 

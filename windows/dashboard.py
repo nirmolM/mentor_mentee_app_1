@@ -18,6 +18,7 @@ from windows.button_classes.defaulter_documentation import DefaulterDocumentGene
 from windows.button_classes.special_action import SpecialMenteeAction
 from windows.button_classes.college_activities_record import CollegeActivityRecordGenerator
 from windows.button_classes.co_curricular_activities_record import CoCurricularActivityRecord
+from windows.button_classes.student_detail_window import StudentDetail
 
 
 class TableWindow(QDialog):
@@ -201,6 +202,8 @@ class TableWindow(QDialog):
         meeting_attendance_window.exec()
 
     def student_detail(self):  # todo -> Write logic to display student details on GUI, not on console
+        student_detail = StudentDetail(self.db_name, self.mentee_name)
+        student_detail.exec()
         print(tb_opt.fetch_leave_details(self.db_name, self.mentee_name))
         print(tb_opt.fetch_academic_achievements(self.db_name, self.mentee_name))
         print(tb_opt.fetch_lor_loa_details(self.db_name, self.mentee_name))

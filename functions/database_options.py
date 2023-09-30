@@ -11,13 +11,14 @@ def make_connection():
     return connection
 
 
-def show_databases():
+def show_databases(first_time=True):
     """This will show Existing databases RELEVANT to the APP"""
-    service_status = win32serviceutil.QueryServiceStatus("MySQL81")
-    if service_status[1] == win32service.SERVICE_RUNNING:
-        pass
-    else:
-        win32serviceutil.StartService("MySQL81")
+    if first_time:
+        service_status = win32serviceutil.QueryServiceStatus("MySQL81")
+        if service_status[1] == win32service.SERVICE_RUNNING:
+            pass
+        else:
+            win32serviceutil.StartService("MySQL81")
     connection_local = make_connection()
     cursor_local = connection_local.cursor()
     cursor_local.execute("SHOW DATABASES")
