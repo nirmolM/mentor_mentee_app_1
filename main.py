@@ -1,5 +1,4 @@
 # todo -> Implement outlook email functionality
-# todo -> Make the student detail window
 import sys
 from PyQt6.QtWidgets import QApplication
 import windows.login_window

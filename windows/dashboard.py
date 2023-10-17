@@ -30,7 +30,7 @@ class TableWindow(QDialog):
         self.admitted_year = None
         self.db_name = db_name
         self.setWindowTitle("Mentor - Mentee Dashboard")
-        # self.showFullScreen()
+        self.showFullScreen()
         self.setMinimumSize(1280, 720)
         layout = QGridLayout()
         path_label = QLabel("Select xls/xlsx file to load data")

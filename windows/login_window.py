@@ -17,7 +17,7 @@ class MainWindow(QMainWindow):  # todo -> Add Icons
         self.create_database_widget = None
         self.database_name_input = None
         self.setWindowTitle("Mentor-Mentee Database System")
-        # self.showFullScreen()
+        self.showFullScreen()
         file_menu_item = self.menuBar().addMenu("&File")
         help_menu_item = self.menuBar().addMenu("&Help")
         self.add_database_action = QAction("Create Database", self)
