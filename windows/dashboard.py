@@ -204,6 +204,7 @@ class TableWindow(QDialog):
     def student_detail(self):  # todo -> Write logic to display student details on GUI, not on console
         student_detail = StudentDetail(self.db_name, self.mentee_name)
         student_detail.exec()
+        print("HI")
 
     def leave_calculator(self):
         leave_calculator_window = LeaveCalculatorDashboard(self.db_name, self.mentee_name)
