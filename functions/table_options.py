@@ -104,6 +104,7 @@ def create_table(database_name: str):
     cursor_local.execute(create_cc_activity_command)
     cursor_local.close()
     connection_local.close()
+    row = 2
 
 
 def write_data_in_table(database_name: str, rows: list):
