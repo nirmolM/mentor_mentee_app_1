@@ -1,4 +1,4 @@
-# todo -> Implement outlook email functionality
+# todo -> Implement Outlook email functionality
 import sys
 from PyQt6.QtWidgets import QApplication
 import windows.login_window

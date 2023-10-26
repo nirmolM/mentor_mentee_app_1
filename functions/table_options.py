@@ -46,15 +46,15 @@ def create_table(database_name: str):
                                 'date_of_birth varchar(11), place_of_birth varchar(11), ' \
                                 'Residential_Address varchar(255), Correspondent_Address varchar(255), ' \
                                 'Blood_group varchar(4),' \
-                                'Mother_name varchar(20), mother_mobile varchar(15), mother_email varchar(25), ' \
-                                'Father_name varchar(20), father_mobile varchar(15), father_email varchar(25), ' \
-                                'Guardian_name varchar(20), guardian_mobile varchar(15), guardian_email varchar(25), ' \
+                                'Mother_name varchar(100), mother_mobile varchar(15), mother_email varchar(50), ' \
+                                'Father_name varchar(100), father_mobile varchar(15), father_email varchar(50), ' \
+                                'Guardian_name varchar(100), guardian_mobile varchar(15), guardian_email varchar(50), ' \
                                 '10th_percent varchar(5), 10th_institute varchar(50), 10th_board varchar(10), ' \
                                 '12th_percent varchar(5), 12th_institute varchar(50), 12th_board varchar(10), ' \
-                                'CET_marks varchar(3), JEE_marks varchar(3), Diploma_percent varchar(4), ' \
+                                'CET_marks varchar(5), JEE_marks varchar(5), Diploma_percent varchar(5), ' \
                                 'Diploma_institute varchar(50), Diploma_board varchar(10), ' \
-                                'sem1ptr varchar(4), sem2ptr varchar(4), sem3ptr varchar(4), sem4ptr varchar(4),' \
-                                'sem5ptr varchar(4), sem6ptr varchar(4), sem7ptr varchar(4), sem8ptr varchar(4),' \
+                                'sem1ptr varchar(5), sem2ptr varchar(5), sem3ptr varchar(5), sem4ptr varchar(5),' \
+                                'sem5ptr varchar(5), sem6ptr varchar(5), sem7ptr varchar(5), sem8ptr varchar(5),' \
                                 'courses_done varchar(20), Internship_status varchar(20), ' \
                                 'publication_details varchar(20), copyright_details varchar(20), ' \
                                 'products_developed varchar(20), professional_bodies varchar(20), ' \
@@ -104,7 +104,6 @@ def create_table(database_name: str):
     cursor_local.execute(create_cc_activity_command)
     cursor_local.close()
     connection_local.close()
-    row = 2
 
 
 def write_data_in_table(database_name: str, rows: list):
