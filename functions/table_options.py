@@ -48,10 +48,11 @@ def create_table(database_name: str):
                                 'Blood_group varchar(4),' \
                                 'Mother_name varchar(100), mother_mobile varchar(15), mother_email varchar(50), ' \
                                 'Father_name varchar(100), father_mobile varchar(15), father_email varchar(50), ' \
-                                'Guardian_name varchar(100), guardian_mobile varchar(15), guardian_email varchar(50), ' \
+                                'Guardian_name varchar(100), guardian_mobile varchar(15), ' \
+                                'guardian_email varchar(50), ' \
                                 '10th_percent varchar(5), 10th_institute varchar(50), 10th_board varchar(10), ' \
                                 '12th_percent varchar(5), 12th_institute varchar(50), 12th_board varchar(10), ' \
-                                'CET_marks varchar(5), JEE_marks varchar(5), Diploma_percent varchar(5), ' \
+                                'CET_marks varchar(10), JEE_marks varchar(10), Diploma_percent varchar(5), ' \
                                 'Diploma_institute varchar(50), Diploma_board varchar(10), ' \
                                 'sem1ptr varchar(5), sem2ptr varchar(5), sem3ptr varchar(5), sem4ptr varchar(5),' \
                                 'sem5ptr varchar(5), sem6ptr varchar(5), sem7ptr varchar(5), sem8ptr varchar(5),' \
